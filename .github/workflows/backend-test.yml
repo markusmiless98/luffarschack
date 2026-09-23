@@ -8,9 +8,11 @@ on:
   push: 
     branches: 
       - main
+      - base-test-branch
   pull_request: 
     branches: 
       - main
+      - base-test-branch
 jobs:
   Tomte-Actions:
     runs-on: ubuntu-latest

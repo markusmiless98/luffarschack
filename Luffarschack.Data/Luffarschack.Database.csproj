@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
+    <ProjectReference Include="..\Luffarschack.Orchestration\Luffarschack.Orchestration.csproj" />
   </ItemGroup>
 
 </Project>

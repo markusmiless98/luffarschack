@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
-    <ProjectReference Include="..\Luffarschack.Data\Luffarschack.Database.csproj" />
   </ItemGroup>
 
 </Project>

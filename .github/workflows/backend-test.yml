@@ -1,0 +1,33 @@
+name: Backend Test
+
+env:
+  BUILD_CONFIGURATION: ${{ vars.BUILD_CONFIGURATION }}
+
+on: 
+  workflow_dispatch:
+  push: 
+    branches: 
+      - main
+  pull_request: 
+    branches: 
+      - main
+jobs:
+  Tomte-Actions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Testing
+      run: echo "Test Backend"
+    - name: checkout repository code
+      uses: actions/checkout@v6
+    - name: install .NET 10
+      uses: actions/setup-dotnet@v6
+      with: 
+        dotnet-version: '10.0.x'
+    - name: build projekt
+      run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: test projekt
+      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: run code
+      run: dotnet run --project backend/Luffarshack.Api/Luffarshack.Api.csproj          
+
+  

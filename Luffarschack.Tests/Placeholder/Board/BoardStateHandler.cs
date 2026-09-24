@@ -115,12 +115,23 @@ namespace Luffarschack.Tests.Placeholder.Board
             if (_layers[0].GetBoard()[1, 0] == player && _layers[1].GetBoard()[1, 1] == player && _layers[2].GetBoard()[1, 2] == player && _layers[3].GetBoard()[1, 3] == player) { return player; }
             if (_layers[0].GetBoard()[2, 0] == player && _layers[1].GetBoard()[2, 1] == player && _layers[2].GetBoard()[2, 2] == player && _layers[3].GetBoard()[2, 3] == player) { return player; }
             if (_layers[0].GetBoard()[3, 0] == player && _layers[1].GetBoard()[3, 1] == player && _layers[2].GetBoard()[3, 2] == player && _layers[3].GetBoard()[3, 3] == player) { return player; }
+            // Checks / - reverse
+            if (_layers[3].GetBoard()[0, 0] == player && _layers[2].GetBoard()[0, 1] == player && _layers[1].GetBoard()[0, 2] == player && _layers[0].GetBoard()[0, 3] == player) { return player; }
+            if (_layers[3].GetBoard()[1, 0] == player && _layers[2].GetBoard()[1, 1] == player && _layers[1].GetBoard()[1, 2] == player && _layers[0].GetBoard()[1, 3] == player) { return player; }
+            if (_layers[3].GetBoard()[2, 0] == player && _layers[2].GetBoard()[2, 1] == player && _layers[1].GetBoard()[2, 2] == player && _layers[0].GetBoard()[2, 3] == player) { return player; }
+            if (_layers[3].GetBoard()[3, 0] == player && _layers[2].GetBoard()[3, 1] == player && _layers[1].GetBoard()[3, 2] == player && _layers[0].GetBoard()[3, 3] == player) { return player; }
             // Checks \
             if (_layers[0].GetBoard()[0, 0] == player && _layers[1].GetBoard()[1, 0] == player && _layers[2].GetBoard()[2, 0] == player && _layers[3].GetBoard()[3, 0] == player) { return player; }
             if (_layers[0].GetBoard()[0, 1] == player && _layers[1].GetBoard()[1, 1] == player && _layers[2].GetBoard()[2, 1] == player && _layers[3].GetBoard()[3, 1] == player) { return player; }
             if (_layers[0].GetBoard()[0, 2] == player && _layers[1].GetBoard()[1, 2] == player && _layers[2].GetBoard()[2, 2] == player && _layers[3].GetBoard()[3, 2] == player) { return player; }
             if (_layers[0].GetBoard()[0, 3] == player && _layers[1].GetBoard()[1, 3] == player && _layers[2].GetBoard()[2, 3] == player && _layers[3].GetBoard()[3, 3] == player) { return player; }
-            
+            // Checks \ - reverse
+            if (_layers[3].GetBoard()[0, 0] == player && _layers[2].GetBoard()[1, 0] == player && _layers[1].GetBoard()[2, 0] == player && _layers[0].GetBoard()[3, 0] == player) { return player; }
+            if (_layers[3].GetBoard()[0, 1] == player && _layers[2].GetBoard()[1, 1] == player && _layers[1].GetBoard()[2, 1] == player && _layers[0].GetBoard()[3, 1] == player) { return player; }
+            if (_layers[3].GetBoard()[0, 2] == player && _layers[2].GetBoard()[1, 2] == player && _layers[1].GetBoard()[2, 2] == player && _layers[0].GetBoard()[3, 2] == player) { return player; }
+            if (_layers[3].GetBoard()[0, 3] == player && _layers[2].GetBoard()[1, 3] == player && _layers[1].GetBoard()[2, 3] == player && _layers[0].GetBoard()[3, 3] == player) { return player; }
+
+
             return -1;
         }
     }

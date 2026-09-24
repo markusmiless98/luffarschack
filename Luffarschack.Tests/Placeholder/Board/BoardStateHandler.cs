@@ -14,6 +14,7 @@ namespace Luffarschack.Tests.Placeholder.Board
             SetUp();
         }
 
+
         public void SetUp()
         {
             int[,] _layout =

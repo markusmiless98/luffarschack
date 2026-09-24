@@ -1,8 +1,6 @@
 name: Backend Test
-
 env:
   BUILD_CONFIGURATION: ${{ vars.BUILD_CONFIGURATION }}
-
 on: 
   workflow_dispatch:
   push: 
@@ -27,10 +25,10 @@ jobs:
         dotnet-version: '10.0.x'
     - name: build projekt
       run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
-    - name: test projekt
-      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}
     - name: run code
-      run: dotnet run --project Luffarschack.Tests/Luffarschack.Tests.csproj          
+      run: dotnet run --project Luffarschack.Tests/Luffarschack.Tests.csproj 
+    - name: test projekt
+      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}         
    
 
   

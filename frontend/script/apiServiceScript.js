@@ -1,5 +1,5 @@
 // Define the API URL
-    const apiUrl = 'http://localhost:5090/api/Piece';
+const apiUrl = 'http://localhost:5090/api/Piece';
 
 // Make a GET request
 fetch(apiUrl)
@@ -14,4 +14,4 @@ fetch(apiUrl)
     })
     .catch(error => {
         console.error('Error:', error);
-    });
+});

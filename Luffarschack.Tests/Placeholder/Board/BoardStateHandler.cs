@@ -7,7 +7,7 @@ namespace Luffarschack.Tests.Placeholder.Board
     public class BoardStateHandler
     {
 
-        BoardLayer[] _layers;
+        BoardLayer[] _layers = new BoardLayer[4];
 
         public BoardStateHandler()
         {

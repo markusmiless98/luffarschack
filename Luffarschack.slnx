@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="backend/Luffarshack.Api/Luffarshack.Api.csproj" />
+  <Project Path="Luffarshack.Api/Luffarshack.Api.csproj" />
   <Project Path="Luffarschack.Core/Luffarschack.Core.csproj" Id="be3f04d8-2322-48bf-aea3-7c24fb3e889a" />
   <Project Path="Luffarschack.Data/Luffarschack.Database.csproj" Id="f7c65ffe-489c-4da6-9fde-4d1f3003a5f9" />
   <Project Path="Luffarschack.Orchestration/Luffarschack.Orchestration.csproj" Id="8bb476b5-9c22-4a4e-bf76-6c67fb8da6f6" />

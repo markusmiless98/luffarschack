@@ -25,6 +25,10 @@ namespace Luffarschack.Tests.Placeholder.Board
                 { 0, 0, 0, 0 }
             };
             _layers = new BoardLayer[4];
+            _layers[0] = new BoardLayer();
+            _layers[1] = new BoardLayer();
+            _layers[2] = new BoardLayer();
+            _layers[3] = new BoardLayer();
 
             _layers[0].SetBoard(_layout);
             _layout[1, 1] = 1;

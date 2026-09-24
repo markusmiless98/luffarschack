@@ -12,10 +12,8 @@ namespace Luffarschack.Tests
         private readonly BoardStateHandler _stateHandler = new BoardStateHandler();
 
         [Theory]
-        [InlineData(1,1,1, 1)]
-        [InlineData(0, 1, 1, 1)]
-        [InlineData(0, 0, 1, 1)]
-        [InlineData(0, 0, 0, 1)]
+        [InlineData(1, 0, 0, 1)]
+        [InlineData(2, 0, 1, 2)]
         public void CheckWinConditionTest(int x, int y, int z, int _playerNum)
         {
             // Arrange

@@ -14,6 +14,8 @@ namespace Luffarschack.Tests
         [Theory]
         [InlineData(1, 0, 0, 1)]
         [InlineData(2, 0, 1, 2)]
+        [InlineData(1, 1, 0, 1)]
+        [InlineData(3, 0, 0, 1)]
         public void CheckWinConditionTest(int x, int y, int z, int _playerNum)
         {
             // Arrange

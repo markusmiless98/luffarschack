@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Luffarschack.Tests.Placeholder.Board
@@ -37,6 +38,7 @@ namespace Luffarschack.Tests.Placeholder.Board
             _layout[2, 1] = 2;
             _layout[2, 2] = 2;
             _layout[2, 3] = 2;
+            _layout[3, 3] = 2;
             _layers[1].SetBoard(_layout);
             _layers[2].SetBoard(_layout);
             _layers[3].SetBoard(_layout);
@@ -61,18 +63,65 @@ namespace Luffarschack.Tests.Placeholder.Board
                 final = item.CheckForLayerWinner();
                 if (final != -1)
                 {
-                    break;
+                    return final;
                 }
+            }
+
+            int _play1 = CheckVictoryRelative(1);
+            int _play2 = CheckVictoryRelative(2);
+
+            if (CheckVictoryRelative(0) != -1)
+            {
+                return _play1;
+            }
+            if (CheckVictoryRelative(0) != -1)
+            {
+                return _play2;
             }
 
             // Make that checks top-bottom
 
             return final;
         }
-        private bool CheckVictoryRelative()
+        private int CheckVictoryRelative(int player)
         {
+            int x = 0;
+            int y = 0;
+            // check down
+            for (int i = 0; i < 16; i++)
+            {
+                if (_layers[0].GetBoard()[x, y] == player && _layers[1].GetBoard()[x, y] == player && _layers[2].GetBoard()[x, y] == player && _layers[3].GetBoard()[x, y] == player)
+                {
+                    return player;
+                }
+                if (x >= 3)
+                {
+                    x = 0;
+                    y++;
+                }
+                else
+                {
+                    x++;
+                }
+            }
 
-            return false;
+            // check diags
+            if (_layers[0].GetBoard()[0, 0] == player && _layers[1].GetBoard()[1, 1] == player && _layers[2].GetBoard()[2, 2] == player && _layers[3].GetBoard()[3, 3] == player) { return player; }
+            if (_layers[0].GetBoard()[3, 0] == player && _layers[1].GetBoard()[2, 1] == player && _layers[2].GetBoard()[1, 2] == player && _layers[3].GetBoard()[0, 3] == player) { return player; }
+            if (_layers[0].GetBoard()[0, 3] == player && _layers[1].GetBoard()[1, 2] == player && _layers[2].GetBoard()[2, 1] == player && _layers[3].GetBoard()[3, 0] == player) { return player; }
+            if (_layers[0].GetBoard()[3, 3] == player && _layers[1].GetBoard()[2, 2] == player && _layers[2].GetBoard()[1, 1] == player && _layers[3].GetBoard()[0, 0] == player) { return player; }
+            // Checks /
+            if (_layers[0].GetBoard()[0, 0] == player && _layers[1].GetBoard()[0, 1] == player && _layers[2].GetBoard()[0, 2] == player && _layers[3].GetBoard()[0, 3] == player) { return player; }
+            if (_layers[0].GetBoard()[1, 0] == player && _layers[1].GetBoard()[1, 1] == player && _layers[2].GetBoard()[1, 2] == player && _layers[3].GetBoard()[1, 3] == player) { return player; }
+            if (_layers[0].GetBoard()[2, 0] == player && _layers[1].GetBoard()[2, 1] == player && _layers[2].GetBoard()[2, 2] == player && _layers[3].GetBoard()[2, 3] == player) { return player; }
+            if (_layers[0].GetBoard()[3, 0] == player && _layers[1].GetBoard()[3, 1] == player && _layers[2].GetBoard()[3, 2] == player && _layers[3].GetBoard()[3, 3] == player) { return player; }
+            // Checks \
+            if (_layers[0].GetBoard()[0, 0] == player && _layers[1].GetBoard()[1, 0] == player && _layers[2].GetBoard()[2, 0] == player && _layers[3].GetBoard()[3, 0] == player) { return player; }
+            if (_layers[0].GetBoard()[0, 1] == player && _layers[1].GetBoard()[1, 1] == player && _layers[2].GetBoard()[2, 1] == player && _layers[3].GetBoard()[3, 1] == player) { return player; }
+            if (_layers[0].GetBoard()[0, 2] == player && _layers[1].GetBoard()[1, 2] == player && _layers[2].GetBoard()[2, 2] == player && _layers[3].GetBoard()[3, 2] == player) { return player; }
+            if (_layers[0].GetBoard()[0, 3] == player && _layers[1].GetBoard()[1, 3] == player && _layers[2].GetBoard()[2, 3] == player && _layers[3].GetBoard()[3, 3] == player) { return player; }
+            
+            return -1;
         }
     }
 }

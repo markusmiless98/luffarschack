@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="dto\" />
+  </ItemGroup>
+
 </Project>

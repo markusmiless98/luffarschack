@@ -11,12 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Luffarschack.Data\Luffarschack.Database.csproj" />
     <ProjectReference Include="..\..\Luffarschack.Orchestration\Luffarschack.Orchestration.csproj" />
+    <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
   </ItemGroup>
 
 </Project>

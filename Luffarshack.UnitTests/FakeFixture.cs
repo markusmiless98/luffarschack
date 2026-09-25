@@ -51,7 +51,7 @@ namespace Luffarshack.UnitTests
             if (_move == null) return -1;
 
 
-            if (_state.BoardState[_move._x, _move._y, _move._z] != 0)
+            if (_state.BoardState[_move._x, _move._y, _move._z] == 0)
             {
                 int i = 0;
                 i = Int32.Parse(_move.Player);

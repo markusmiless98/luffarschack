@@ -3,4 +3,5 @@
   <Project Path="Luffarschack.Data/Luffarschack.Database.csproj" Id="f7c65ffe-489c-4da6-9fde-4d1f3003a5f9" />
   <Project Path="Luffarschack.Orchestration/Luffarschack.Orchestration.csproj" Id="8bb476b5-9c22-4a4e-bf76-6c67fb8da6f6" />
   <Project Path="Luffarshack.Api/Luffarshack.Api.csproj" />
+  <Project Path="Luffarshack.UnitTests/Luffarshack.UnitTests.csproj" Id="820618d8-e21f-472f-a774-aed5341281aa" />
 </Solution>

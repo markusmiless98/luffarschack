@@ -28,7 +28,7 @@ jobs:
     - name: build projekt
       run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
     - name: test projekt
-      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}         
+      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}
     - name: run code
       run: dotnet run --project Luffarshack.UnitTests/Luffarshack.UnitTests.csproj 
    

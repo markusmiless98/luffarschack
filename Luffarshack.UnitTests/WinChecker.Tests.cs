@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Luffarshack.UnitTests
 {
-    internal class WinChecker
+    public class WinCheckerTests
     {
     }
 }

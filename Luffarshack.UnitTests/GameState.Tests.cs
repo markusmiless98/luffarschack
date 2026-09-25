@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Luffarshack.UnitTests
 {
-    internal class GameState
+    public class GameStateTests
     {
+
     }
 }

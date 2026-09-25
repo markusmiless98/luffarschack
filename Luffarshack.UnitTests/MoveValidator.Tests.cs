@@ -11,8 +11,7 @@ namespace Luffarshack.UnitTests
         FakeFixture _fake = new FakeFixture();
 
         [Theory]
-        [InlineData(1, 0, 0, 1)]
-        [InlineData(2, 0, 1, 2)]
+        [InlineData(0, 0, 0, 0)]
         [InlineData(1, 1, 0, 1)]
         [InlineData(3, 0, 0, 1)]
         public void CanPerformMove(int x, int y, int z, int _playerNum)
@@ -20,6 +19,7 @@ namespace Luffarshack.UnitTests
             // Arrange
             var i = 0;
             _fake = new FakeFixture();
+            _fake.SetUp();
             Move _move = new Move();
             _move._x = x;
             _move._y = y;

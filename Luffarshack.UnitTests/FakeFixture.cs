@@ -11,8 +11,13 @@ namespace Luffarshack.UnitTests
 
         public FakeFixture()
         {
+            SetUp();
+        }
+        public void SetUp()
+        {
+
             _state.BoardState = new int[4, 4, 4];
-            int i = _state.BoardState.Length;
+            int i = 0;
             int x = 0;
             int y = 0;
             int z = 0;
@@ -27,18 +32,22 @@ namespace Luffarshack.UnitTests
                 {
                     _state.BoardState[x, y, z] = 2;
                 }
-                if (y >= 3 && x >= 3)
+                else
+                {
+                    _state.BoardState[x, y, z] = 0;
+                }
+                if (y >= 3 && x == 3)
                 {
                     x = 0;
                     y = 0;
                     z++;
                 }
-                else if (x >= 3)
+                else if (x == 3)
                 {
                     x = 0;
                     y++;
                 }
-                else 
+                else
                 {
                     x++;
                 }
@@ -60,6 +69,12 @@ namespace Luffarshack.UnitTests
             }
 
             return -1;
+        }
+        public int CheckBoard(Move _move)
+        {
+            if (_move == null) return -1;
+
+            return _state.BoardState[_move._x, _move._y, _move._z];
         }
     }
 }

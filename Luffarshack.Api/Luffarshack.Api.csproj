@@ -7,16 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.13" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Luffarschack.Data\Luffarschack.Database.csproj" />
-    <ProjectReference Include="..\..\Luffarschack.Orchestration\Luffarschack.Orchestration.csproj" />
+    <ProjectReference Include="..\Luffarschack.Data\Luffarschack.Database.csproj" />
+    <ProjectReference Include="..\Luffarschack.Orchestration\Luffarschack.Orchestration.csproj" />
+    <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
   </ItemGroup>
 
 </Project>

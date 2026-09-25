@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Luffarschack.Core;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
-using Luffarschack.Core;
 
 namespace Luffarshack.UnitTests
 {
@@ -15,7 +16,6 @@ namespace Luffarshack.UnitTests
         }
         public void SetUp()
         {
-
             _state.BoardState = new int[4, 4, 4];
             int i = 0;
             int x = 0;
@@ -60,12 +60,14 @@ namespace Luffarshack.UnitTests
             if (_move == null) return -1;
 
 
-            if (_state.BoardState[_move._x, _move._y, _move._z] == 0)
+            if (_state.BoardState[_move.x, _move.y, _move.z] == 0)
             {
                 int i = 0;
-                i = Int32.Parse(_move.Player);
-                _state.BoardState[_move._x, _move._y, _move._z] = i;
-                return i;
+                if (Int32.TryParse(_move.Player, out i) != null)
+                {
+                    _state.BoardState[_move.x, _move.y, _move.z] = i;
+                    return i;
+                }
             }
 
             return -1;
@@ -74,7 +76,9 @@ namespace Luffarshack.UnitTests
         {
             if (_move == null) return -1;
 
-            return _state.BoardState[_move._x, _move._y, _move._z];
+            int i = _state.BoardState[_move.x, _move.y, _move.z];
+
+            return i;
         }
     }
 }

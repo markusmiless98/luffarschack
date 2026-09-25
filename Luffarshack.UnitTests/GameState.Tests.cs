@@ -21,15 +21,16 @@ namespace Luffarshack.UnitTests
             var i = 0;
             _fake = new FakeFixture();
             _fake.SetUp();
+            
             Move _move = new Move();
-            _move._x = x;
-            _move._y = y;
-            _move._z = z;
+            _move.x = x;
+            _move.y = y;
+            _move.z = z;
             _move.Player = _playerNum.ToString();
+            
 
             // Act
             i = _fake.CheckBoard(_move);
-
             // Assert
             Assert.Equal(_playerNum, i);
         }

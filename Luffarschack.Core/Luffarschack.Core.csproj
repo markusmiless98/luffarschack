@@ -6,9 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="obj\GameState.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Services\" />

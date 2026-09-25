@@ -30,7 +30,7 @@ jobs:
     - name: test projekt
       run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}         
     - name: run code
-      run: dotnet run --project Luffarschack.UnitTests/Luffarschack.UnitTests.csproj 
+      run: dotnet run --project Luffarshack.UnitTests/Luffarshack.UnitTests.csproj 
    
 
   

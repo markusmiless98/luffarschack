@@ -22,7 +22,7 @@ async function GetFetch()
 async function MoveRequest(_x,_y,_z)
 {
 	try{
-		const data = { "_x":_x, "_y":_y, "_z":_z };
+		const data = { "x":_x, "y":_y, "z":_z };
 		console.log(data)
 		console.log(JSON.stringify(data))
 		const response = await fetch(gameUrl, {

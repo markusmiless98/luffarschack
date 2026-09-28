@@ -13,6 +13,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
@@ -34,3 +35,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Top-level statements make the compiler generate a hidden, internal Program class.
+// Declaring it here as public partial merges with that class and makes it visible,
+// so the test project can use WebApplicationFactory<Program>.
+public partial class Program { }

@@ -1,5 +1,6 @@
 // Define the API URL
 const apiUrl = 'http://localhost:5090/api/Piece';
+const gameUrl = 'http://localhost:5090/api/game';
 
 // Make a GET request
 async function GetFetch()
@@ -24,7 +25,7 @@ async function MoveRequest(_x,_y,_z)
 		const data = { "_x":_x, "_y":_y, "_z":_z };
 		console.log(data)
 		console.log(JSON.stringify(data))
-		const response = await fetch(apiUrl, {
+		const response = await fetch(gameUrl, {
 		  method: "POST",
 		  headers: {'Content-Type': 'application/json'},
 		  body: JSON.stringify(data),

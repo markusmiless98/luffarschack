@@ -1,6 +1,6 @@
 namespace Luffarschack.Core;
 
-public class Player
+public class Player //ignore right now
 {
     public int Id { get; set; }
     public string Name { get; set; }

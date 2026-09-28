@@ -18,7 +18,7 @@ async function GetFetch()
 	}
 }
 // Make a POST request
-async function PostFetch(_x,_y,_z)
+async function MoveRequest(_x,_y,_z)
 {
 	try{
 		const data = { "_x":_x, "_y":_y, "_z":_z };

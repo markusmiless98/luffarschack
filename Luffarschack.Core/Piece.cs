@@ -15,6 +15,8 @@ public class Piece
 
     public Piece(int x, int y, int z)
     {
-        
+        _x = x;
+        _y = y; 
+        _z = z;
     }
 }

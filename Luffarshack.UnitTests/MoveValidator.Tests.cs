@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Luffarschack.Core;
+using Luffarschack.Core.Services;
 
 namespace Luffarshack.UnitTests
 {
@@ -31,6 +32,51 @@ namespace Luffarshack.UnitTests
 
             // Assert
             Assert.Equal(_playerNum, i);
+        }
+        
+        [Fact]
+        public void IsValidMove_EmptyCell_ReturnsTrue()
+        {
+            //arrange
+            MoveValidator validator = new MoveValidator();
+            var board = new int[4,4,4];
+
+            //act
+            var result = validator.IsValidMove(board, 0, 0, 0);
+
+            //assert
+            Assert.True(result);  
+        }
+
+        [Fact]
+        public void IsValidMove_OccupiedCell_ReturnsFalse()
+        {
+            //arrange
+            MoveValidator validator = new MoveValidator();
+            var board = new int[4, 4, 4];
+            board[0, 0, 0] = 1;
+            
+            //act
+            var result = validator.IsValidMove(board, 0, 0, 0);
+
+            //assert
+            Assert.False(result);  
+        }
+        
+        [Theory]
+        [InlineData(4, 0, 0)]
+        [InlineData(-1, 0, 0)]
+        public void IsValidMove_OutOfBounds_ReturnsFalse( int x, int y, int z)
+        {
+            //arrange
+            MoveValidator validator = new MoveValidator();
+            var board = new int[4, 4, 4];
+            
+            //act
+            var result = validator.IsValidMove(board, x, y, z);
+
+            //assert
+            Assert.False(result);  
         }
     }
 }

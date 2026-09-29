@@ -11,7 +11,7 @@ public class GameController : ControllerBase
 {
     
     [HttpPost] //api/game
-    public async Task<IActionResult> PostMoveRequest([FromBody] MoveRequest request)
+    public async Task<IActionResult> PostMoveRequest([FromBody] MoveRequest request)//[FromQuery] int player
     {
         return Ok();
     }

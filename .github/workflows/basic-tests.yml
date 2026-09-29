@@ -6,12 +6,12 @@ on:
   push: 
     branches: 
       - main
-      - developing
+      - development
       - feat-unit-tests
   pull_request: 
     branches: 
       - main
-      - developing
+      - development
       - feat-unit-tests
 jobs:
   Backend-Test:

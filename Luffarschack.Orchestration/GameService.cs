@@ -1,14 +1,25 @@
 using Luffarschack.Core;
+using Luffarschack.Orchestration.dto;
+using Luffarschack.Orchestration.Interface;
+using System.Text.Json;
 
 namespace Luffarschack.Orchestration;
 
-public class GameService
+public class GameService : IGameService
 {
     public GameState _gameState { get; set; }
 
     public GameService()
     {
-        
+        _gameState = new GameState();
+    }
+
+    public String GetGameState()
+    {
+        GameStateDTO _temp = new GameStateDTO(_gameState);
+        string _currentState = JsonSerializer.Serialize(_temp);
+
+        return _currentState;
     }
 
     public void MakeMove(Move move)

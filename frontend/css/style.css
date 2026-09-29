@@ -1,0 +1,10 @@
+#board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    gap: 4px;
+    padding: 5px;
+}
+
+.cell {
+    height: 80px;
+}

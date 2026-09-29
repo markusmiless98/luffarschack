@@ -3,7 +3,7 @@ const apiUrl = 'http://localhost:5090/api/Piece';
 const gameUrl = 'http://localhost:5090/api/game';
 
 // Make a GET request
-async function GetFetch()
+export async function GetFetch()
 {
 	try{
 		const response = await fetch(apiUrl);
@@ -18,8 +18,9 @@ async function GetFetch()
 		console.error(error.message);
 	}
 }
+
 // Make a POST request
-async function MoveRequest(_x,_y,_z)
+export async function MoveRequest(_x,_y,_z)
 {
 	try{
 		const data = { "x":_x, "y":_y, "z":_z };

@@ -4,7 +4,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5090/api/Piece", "http://localhost:5090")
+        policy.WithOrigins("http://localhost:5090/api/Piece","http://localhost:5090/api/game", "http://localhost:5090")
               .AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();

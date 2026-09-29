@@ -1,56 +1,54 @@
 using Luffarschack.Core;
 using Luffarschack.Orchestration.dto;
 using Luffarschack.Orchestration.Interface;
+
 using System.Text.Json;
 
 namespace Luffarschack.Orchestration;
 
 public class GameService : IGameService
 {
-    public GameState _gameState { get; set; }
+    public GameState GameState { get; set; } 
 
     public GameService()
     {
-        _gameState = new GameState();
+        //temporaray initilization of gamestate
+        GameState = new GameState()
+        {
+            BoardState = new int[4,4,4],
+            CurrentPlayer = 1, 
+            Players = new List<int> {1,2},
+            Turn = 0,
+            Winner = 0,
+        };
     }
 
-    public String GetGameState()
+    public GameStateDTO GetGameStateDTO()//returnera GameState dto Object
     {
-        GameStateDTO _temp = new GameStateDTO(_gameState);
-        string _currentState = JsonSerializer.Serialize(_temp);
-
-        return _currentState;
-    }
-
-    public void MakeMove(Move move)
-    {
-        throw new NotImplementedException();
-        //if(IsValidMove(move))
-        //_gameState.BoardState = 
-        //if(IsWinner()) {}
-        //else{_gameState.Turn ++}
-        //
-    }
-
-    private void PlaceMove(Move move)
-    {
-        throw new NotImplementedException();
-        //place out the move in the array
-        //_gameState.BoardState
-        
-        //refactor and move method later
+        GameStateDTO dto = Helper.ToDto(GameState);
+        return dto;
     }
     
-    private void IsValidMove(Move move)
+    public bool MakeMove(MoveRequest move)//maybe return a status code instead of bool? becuse then it can return diffrent responses and tell frontend more about what went wrong
     {
-        throw new NotImplementedException();
-        //refactor and move method later
+        //this is a temporary try catch, it should have more valid checks but for now this ensures that the program does not crash
+        try
+        {
+            GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
+            //need a method to change current player to next player
+            //need a win check as well
+            //turn ++
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
-    public void IsWinner()
+    public void ChangePlayer(int player)//maybe try change player? what could go wrong here...
     {
-        throw new NotImplementedException();
-        //refactor and move method later
+        
     }
 
     public void SaveGame()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Luffarschack.Orchestration.dto;
 
 namespace Luffarschack.Core
 {
@@ -21,5 +22,14 @@ namespace Luffarschack.Core
             }
             return result;
         }
+        
+        public static GameStateDTO ToDto(GameState state) => new()
+        {
+            BoardState = state.BoardState.ToJagged(),
+            CurrentPlayer = state.CurrentPlayer,
+            Winner = state.Winner,
+            Turn = state.Turn
+            
+        };
     }
 }

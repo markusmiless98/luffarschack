@@ -1,3 +1,6 @@
+using Luffarschack.Orchestration;
+using Luffarschack.Orchestration.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -18,6 +21,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<IGameService, GameService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

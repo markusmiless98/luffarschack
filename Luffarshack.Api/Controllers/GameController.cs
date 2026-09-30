@@ -16,6 +16,7 @@ public class GameController : ControllerBase
     {
         _gameService = gameService;
     }
+    
     [HttpPost] //api/game
     public async Task<IActionResult> PostMoveRequest([FromBody] MoveRequest moveRequest)
     {
@@ -44,7 +45,7 @@ public class GameController : ControllerBase
     public async Task<IActionResult> GetGameState()//IActionResult<GameState>
     {
         var dto = _gameService.GetGameStateDTO();
-        return Ok(dto);//Ok(object) serialises the object into json and send the json upon request
+        return Ok(dto);
     }
     
     

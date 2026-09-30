@@ -12,7 +12,8 @@ export async function GetFetch()
 		}
 		
 		const result = await response.json();
-		console.log(result);
+		console.log(result)
+		return result;
 	}
 	catch (error){
 		console.error(error.message);
@@ -24,20 +25,19 @@ export async function MoveRequest(x,y,z)
 {
 	try{
 		const data = { "x":x, "y":y, "z":z };
-		console.log(data)
-		console.log(JSON.stringify(data))
+		//console.log(data)
+		//console.log(JSON.stringify(data))
 		const response = await fetch(gameUrl, {
 		  method: "POST",
 		  headers: {'Content-Type': 'application/json'},
 		  body: JSON.stringify(data),
 		});
-		console.log(response)
+		//console.log(response)
 		if (!response.ok){
 			throw new Error(`Response status: ${response.status}`);
 		}
 		
 		const result = await response.json();
-		console.log(result);
 		return result;
 	}
 	catch (error){

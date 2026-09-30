@@ -10,7 +10,6 @@ async function BuildBoard() {
 			cell.id = "Cell " + x.toString() + " " + y.toString();
             cell.className = "cell";
             cell.addEventListener("click", () => {
-                console.log(x, y);
                 TryApiCall(x, y, cell)
             });
             board.appendChild(cell);
@@ -21,55 +20,71 @@ async function BuildBoard() {
 async function TryApiCall(x, y, cell) {
     cell.disabled = true;
     try {
-        const result = await MoveRequest(x, y, 0);
-        console.log(result);
-		UpdateBoard(result);
+        const result = await MoveRequest(0,y,x); // Due to button setup this has to be reversed
+		await CheckUpdateBoard();
     } catch (error) {
         cell.disabled = false;
         console.error(error);
     }
 }
 
-async function UpdateBoard(move)
+async function CheckUpdateBoard()
 {
     try {
         //const result = GetFetch();
 		//console.log(result);
 		// Use parse later
+		/*
 		const json_temp = `{
 		  "BoardState": [
-			[[0,0,0,0],[1,0,0,0],[2,0,0,0],[3,0,0,0]],
-			[[0,1,0,0],[1,1,0,0],[2,1,0,0],[3,1,0,0]],
-			[[0,2,0,0],[1,2,0,0],[2,2,0,0],[3,2,0,0]],
-			[[0,3,0,0],[1,3,0,0],[2,3,0,0],[3,3,0,0]]
+			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 		  ],
 		  "Winner": 0,
-		  "Turn": 0
+		  "Turn": 0,
+		  "CurrentPlayer": 0
 		}`;
-		console.log(json_temp);
-		const _board = JSON.parse(json_temp);
-		console.log(_board);
-		console.log(_board.BoardState);
+		*/
+		const json_fetch = await GetFetch();
+		const _temp = JSON.stringify(json_fetch);
+		//console.log(_temp);
+		
+		const _board = JSON.parse(_temp);
+		
 		let x = 0;
 		let y = 0;
-		for (const _layer of _board.BoardState)
+		let z = 0;
+		for (const _layer of _board.boardState)
 		{
-			for (const _position of _layer){
-				if (_position[3] != 0){
-					console.log("Occupied Space");
+			for (const _row of _layer)
+			{
+				for (const _column of _row)
+				{
+					UpdateBoard(x,y,0,_column);
+					x++;
 				}
-				if (x == move.x && y == move.y){
-					console.log("Placed at " + _position);
-				}
-				x++;
+				x = 0;
+				y++;
 			}
 			x = 0;
-			y++;
+			y = 0;
+			z++;
+			if (z > 0) break;
 		}
     }
 	catch (error) {
         console.error(error);
     }
+}
+
+// Should maybe be moved
+function UpdateBoard(x,y,z,tar)
+{
+	let _id = "Cell " + x.toString() + " " + y.toString();
+	const _boardPlace = document.getElementById(_id);
+	_boardPlace.innerText = tar.toString();
 }
 
 BuildBoard()

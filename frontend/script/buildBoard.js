@@ -85,6 +85,12 @@ function UpdateBoard(x,y,z,tar)
 	let _id = "Cell " + x.toString() + " " + y.toString();
 	const _boardPlace = document.getElementById(_id);
 	_boardPlace.innerText = tar.toString();
+	if (_boardPlace.innerText == "0"){
+		_boardPlace.disabled = false;
+	}
+	else{
+		_boardPlace.disabled = true;
+	}
 }
 
 

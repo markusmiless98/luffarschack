@@ -2,37 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Luffarschack.Orchestration;
 using Xunit;
 
 namespace Luffarshack.UnitTests
 {
     public class GameStateTests
     {
-
-        FakeFixture _fake = new FakeFixture();
-
+        private GameService _sut = new GameService(); //system under test
+        
         [Theory]
         [InlineData(3, 2, 1, 1)]
         [InlineData(3, 2, 3, 0)]
         [InlineData(2, 0, 1, 2)]
-        public void ConfirmBoardHasPieceAtPosition(int x, int y, int z, int _playerNum)
+        public void ConfirmBoardHasPieceAtPosition(int x, int y, int z, int expected)
         {
             // Arrange
-            var i = 0;
-            _fake = new FakeFixture();
-            _fake.SetUp();
+            var mr = new MoveRequest{x = x, y = y, z = z};
+            _sut.GameState.CurrentPlayer = expected;
+            _sut.MakeMove(mr);
             
-            Move _move = new Move();
-            _move.x = x;
-            _move.y = y;
-            _move.z = z;
-            _move.Player = _playerNum.ToString();
-            
-
             // Act
-            i = _fake.CheckBoard(_move);
+            var actual = _sut.GameState.BoardState[x, y, z];
+            
             // Assert
-            Assert.Equal(_playerNum, i);
+            Assert.Equal(expected, actual);
         }
     }
 }

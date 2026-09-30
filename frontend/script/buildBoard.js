@@ -1,37 +1,44 @@
-import { MoveRequest, GetFetch } from "./apiServiceScript.js";
+import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
 
 const board = document.getElementById("board");
 const size = 4;
 
 async function BuildBoard() {
-    for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size; y++) {
-            const cell = document.createElement("button");
+	const reset_but = document.getElementById("reset-button");
+	reset_but.addEventListener("click", () => {
+		NewGameRequest(2);
+	});
+	for (let x = 0; x < size; x++) {
+		for (let y = 0; y < size; y++) {
+			const cell = document.createElement("button");
 			cell.id = "Cell " + x.toString() + " " + y.toString();
-            cell.className = "cell";
-            cell.addEventListener("click", () => {
-                TryApiCall(x, y, cell)
-            });
-            board.appendChild(cell);
-        }
-    }
+			cell.className = "cell";
+			cell.addEventListener("click", () => {
+				TryApiCall(x, y, cell)
+			});
+			board.appendChild(cell);
+		}
+	}
 }
 
 async function TryApiCall(x, y, cell) {
-    cell.disabled = true;
-    try {
-        const result = await MoveRequest(0,y,x); // Due to button setup this has to be reversed
-		await CheckUpdateBoard();
-    } catch (error) {
-        cell.disabled = false;
-        console.error(error);
-    }
+	cell.disabled = true;
+	try {
+		const result = await MoveRequest(0,y,x); // Due to button setup this has to be reversed
+		if (result.ok)
+		{
+			await CheckUpdateBoard();
+		}
+	} catch (error) {
+		cell.disabled = false;
+		console.error(error);
+	}
 }
 
 async function CheckUpdateBoard()
 {
-    try {
-        //const result = GetFetch();
+	try {
+		//const result = GetFetch();
 		//console.log(result);
 		// Use parse later
 		/*
@@ -73,10 +80,10 @@ async function CheckUpdateBoard()
 			z++;
 			if (z > 0) break;
 		}
-    }
+	}
 	catch (error) {
-        console.error(error);
-    }
+		console.error(error);
+	}
 }
 
 // Should maybe be moved
@@ -86,5 +93,6 @@ function UpdateBoard(x,y,z,tar)
 	const _boardPlace = document.getElementById(_id);
 	_boardPlace.innerText = tar.toString();
 }
+
 
 BuildBoard()

@@ -37,8 +37,29 @@ export async function MoveRequest(x,y,z)
 			throw new Error(`Response status: ${response.status}`);
 		}
 		
-		const result = await response.json();
-		return result;
+		return response;
+	}
+	catch (error){
+		console.error(error.message);
+	}
+}
+
+// POST /api/game/new?players=?
+export async function NewGameRequest(num)
+{
+	try{
+		if (num == null) num = 2;
+		
+		let _url = gameUrl + "/new?players=" + num.toString();
+		const response = await fetch(_url, {
+		  method: "POST",
+		});
+		console.log(response)
+		if (!response.ok){
+			throw new Error(`Response status: ${response.status}`);
+		}
+		const _fet = await GetFetch();
+		console.log(_fet)
 	}
 	catch (error){
 		console.error(error.message);

@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Luffarschack.Orchestration.dto;
 
 namespace Luffarschack.Orchestration.Interface
 {
     public interface IGameService
     {
-        public string GetGameState();
-        public void MakeMove(Move move);
+        public GameState GameState { get; set; }
+        public GameStateDTO GetGameStateDTO();
+        public bool MakeMove(MoveRequest move);
 
     }
 }

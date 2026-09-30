@@ -3,6 +3,7 @@ using Luffarschack.Orchestration.dto;
 using Luffarschack.Orchestration.Interface;
 
 using System.Text.Json;
+using Luffarschack.Core.Services;
 
 namespace Luffarschack.Orchestration;
 
@@ -55,5 +56,14 @@ public class GameService : IGameService
     {
         throw new NotImplementedException();
         //databasecall via interface
+    }
+
+    public bool StartGame(int players)
+    {
+        if (players < 1 || players > 4) // player range
+            return false;
+        
+        GameState = GameBuilder.NewGame(players);
+        return true;
     }
 }

@@ -48,20 +48,25 @@ export async function MoveRequest(x,y,z)
 export async function NewGameRequest(num)
 {
 	try{
-		if (num == null) num = 2;
-		
 		let _url = gameUrl + "/new?players=" + num.toString();
+		const data = {"players":num};
 		const response = await fetch(_url, {
 		  method: "POST",
+		  headers: {'Content-Type': 'application/json'},
+		  body: JSON.stringify(data),
 		});
-		console.log(response)
 		if (!response.ok){
 			throw new Error(`Response status: ${response.status}`);
+			return false;
 		}
 		const _fet = await GetFetch();
-		console.log(_fet)
+		if (_fet != null){
+			return true;
+		}
+		return false;
 	}
 	catch (error){
 		console.error(error.message);
+		return false;
 	}
 }

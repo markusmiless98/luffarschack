@@ -4,10 +4,6 @@ const board = document.getElementById("board");
 const size = 4;
 
 async function BuildBoard() {
-	const reset_but = document.getElementById("reset-button");
-	reset_but.addEventListener("click", () => {
-		NewGameRequest(2);
-	});
 	for (let x = 0; x < size; x++) {
 		for (let y = 0; y < size; y++) {
 			const cell = document.createElement("button");
@@ -35,12 +31,9 @@ async function TryApiCall(x, y, cell) {
 	}
 }
 
-async function CheckUpdateBoard()
+export async function CheckUpdateBoard()
 {
 	try {
-		//const result = GetFetch();
-		//console.log(result);
-		// Use parse later
 		/*
 		const json_temp = `{
 		  "BoardState": [

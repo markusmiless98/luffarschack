@@ -9,7 +9,7 @@ namespace Luffarshack.UnitTests
     public class StartGameTests
     {
         [Theory]
-        [InlineData(1)]
+        [InlineData(3)]
         [InlineData(2)]
         [InlineData(4)]
         public void StartGame_ValidPlayerCount_ReturnsTrue(int players)

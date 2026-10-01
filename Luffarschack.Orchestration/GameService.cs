@@ -70,8 +70,7 @@ public class GameService : IGameService
 
     public bool StartGame(int players)
     {
-        if (players < 1 || players > 4) // player range
-            return false;
+        if (players < 2 || players > 4) return false;
         
         GameState = GameBuilder.NewGame(players);
         return true;

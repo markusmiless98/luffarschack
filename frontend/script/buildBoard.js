@@ -25,7 +25,8 @@ async function TryApiCall(x, y, cell) {
 		{
 			await CheckUpdateBoard();
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		cell.disabled = false;
 		console.error(error);
 	}
@@ -49,20 +50,20 @@ export async function CheckUpdateBoard()
 		*/
 		const json_fetch = await GetFetch();
 		const _temp = JSON.stringify(json_fetch);
-		//console.log(_temp);
 		
 		const _board = JSON.parse(_temp);
 		
 		let x = 0;
 		let y = 0;
 		let z = 0;
+		let _winner = (_boardState.winner != "0");
 		for (const _layer of _board.boardState)
 		{
 			for (const _row of _layer)
 			{
 				for (const _column of _row)
 				{
-					UpdateBoard(x,y,0,_column);
+					UpdateBoard(x,y,0,"-1", _winner);
 					x++;
 				}
 				x = 0;
@@ -80,16 +81,21 @@ export async function CheckUpdateBoard()
 }
 
 // Should maybe be moved
-function UpdateBoard(x,y,z,tar)
+function UpdateBoard(x,y,z,tar,win)
 {
+	if (x == null || y == null || z == null) return false;
+	
 	let _id = "Cell " + x.toString() + " " + y.toString();
 	const _boardPlace = document.getElementById(_id);
 	_boardPlace.innerText = tar.toString();
-	if (_boardPlace.innerText == "0"){
-		_boardPlace.disabled = false;
-	}
-	else{
+	if (win == true || _boardPlace.innerText != "0")
+	{
+		// Game is over don't change buttons now
 		_boardPlace.disabled = true;
+	}
+	else
+	{
+		_boardPlace.disabled = false;
 	}
 }
 

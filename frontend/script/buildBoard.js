@@ -56,14 +56,14 @@ export async function CheckUpdateBoard()
 		let x = 0;
 		let y = 0;
 		let z = 0;
-		let _winner = (_boardState.winner != "0");
+		let _winner = (_board.winner != 0);
 		for (const _layer of _board.boardState)
 		{
 			for (const _row of _layer)
 			{
 				for (const _column of _row)
 				{
-					UpdateBoard(x,y,0,"-1", _winner);
+					UpdateBoard(x,y,0,_column, _winner);
 					x++;
 				}
 				x = 0;

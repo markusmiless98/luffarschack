@@ -46,8 +46,7 @@ public class MakeMoveTests
         var service = new GameService();
         service.StartGame(2);
 
-        service.MakeMove(new MoveRequest { x = 1, y = 2, z = 3 });
-        service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 });
+        service.MakeMove(new MoveRequest { x = 1, y = 2, z = 3 });//player 1 does move now it should be player 2's turn
 
         Assert.Equal(2, service.GameState.CurrentPlayer);
     }

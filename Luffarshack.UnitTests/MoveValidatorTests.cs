@@ -38,11 +38,10 @@ namespace Luffarshack.UnitTests
         public void IsValidMove_EmptyCell_ReturnsTrue()
         {
             //arrange
-            MoveValidator validator = new MoveValidator();
             var board = new int[4,4,4];
 
             //act
-            var result = validator.IsValidMove(board, 0, 0, 0);
+            var result = MoveValidator.IsValidMove(board, 0, 0, 0);
 
             //assert
             Assert.True(result);  
@@ -52,12 +51,11 @@ namespace Luffarshack.UnitTests
         public void IsValidMove_OccupiedCell_ReturnsFalse()
         {
             //arrange
-            MoveValidator validator = new MoveValidator();
             var board = new int[4, 4, 4];
             board[0, 0, 0] = 1;
             
             //act
-            var result = validator.IsValidMove(board, 0, 0, 0);
+            var result = MoveValidator.IsValidMove(board, 0, 0, 0);
 
             //assert
             Assert.False(result);  
@@ -69,11 +67,10 @@ namespace Luffarshack.UnitTests
         public void IsValidMove_OutOfBounds_ReturnsFalse( int x, int y, int z)
         {
             //arrange
-            MoveValidator validator = new MoveValidator();
             var board = new int[4, 4, 4];
             
             //act
-            var result = validator.IsValidMove(board, x, y, z);
+            var result = MoveValidator.IsValidMove(board, x, y, z);
 
             //assert
             Assert.False(result);  

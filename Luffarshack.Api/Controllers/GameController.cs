@@ -12,7 +12,7 @@ namespace Luffarshack.Api.Controllers;
 public class GameController : ControllerBase
 {
     private readonly IGameService _gameService;
-    public GameController(IGameService gameService)//fixa DI
+    public GameController(IGameService gameService)
     {
         _gameService = gameService;
     }
@@ -33,12 +33,17 @@ public class GameController : ControllerBase
     }
     
     [HttpPost("new")] 
-    public ActionResult<GameStateDTO> NewGame()
+    public ActionResult<GameStateDTO> NewGame([FromQuery] int players)
     {
-        //activate method from GameService that starts new game 
-        //what data does backend need from frontend to start a new game ouside of just the request?
-        //the amount of players? could make it two by default for now but its worth thinking of later
-        return Ok();
+        var result = _gameService.StartGame(players);
+        if (result)
+        {
+            return Ok();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
     
     [HttpGet]

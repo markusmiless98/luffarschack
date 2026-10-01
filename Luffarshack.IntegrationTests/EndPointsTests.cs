@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Luffarshack.UnitTests;
 
-public class EndPointsTests
+public class EndPointsTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     

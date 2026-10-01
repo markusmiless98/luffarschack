@@ -1,18 +1,18 @@
-## What?
-<!-- what did you do? -->
+## what did you do?
 
 - [ ] Added new code/feature
 - [ ] Refactored existing code
 - [ ] Fixed a Bug
 - [ ] Wrote tests
 
-## Summary
-<!-- Briefly describe what this PR changes and why. -->
+## Summary 
+#### Briefly describe what this PR changes and why
 
-## Notes
-<!-- Anything reviewers should know, such as implementation details, trade-offs, or follow-up work. -->
+## Notes 
+#### Anything reviewers should know, such as implementation details, trade-offs, or follow-up work
 
-Checklist
+
+## Checklist
 - [ ] The feature works as intended
 - [ ] The main use case has been tested
 - [ ] Edge cases have been considered

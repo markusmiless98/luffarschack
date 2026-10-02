@@ -35,7 +35,7 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(3, 0, 0);
             service.MakeMove(move);
 
-            int i = pop.CurrentGameState(service.GameState.BoardState, service.GameState.Turn);
+            int i = pop.CurrentGameState(service.GameState, move);
 
             //assert
             Assert.True(i > 0);
@@ -66,13 +66,13 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(x, y, z);
             service.MakeMove(move);
 
-            int i = pop.CurrentGameState(service.GameState.BoardState,service.GameState.Turn);
+            int i = pop.CurrentGameState(service.GameState, move);
 
             //assert
             Assert.Equal(player,i);
         }
         [Fact]
-        public void EndGame_DrawState_ReturnsTrue()
+        public void EndGame_ValidDrawState_ReturnsTrue()
         {
             //arrange
             var service = new GameService();
@@ -104,7 +104,7 @@ namespace Luffarshack.UnitTests
             }
 
 
-            int i = pop.CurrentGameState(service.GameState.BoardState, service.GameState.Turn);
+            int i = pop.CurrentGameState(service.GameState, move);
 
             //assert
             Assert.Equal(-1, i);

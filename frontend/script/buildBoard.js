@@ -92,6 +92,20 @@ export async function CheckUpdateBoard()
 			z++;
 			if (z > 0) break;
 		}
+		
+		if (_winner == true)
+		{
+			//console.log("Player " + _board.winner " won");
+			let win_text = "Player " + _board.winner.toString() + " won!";
+			if (_board.winner == "-1"){
+				win_text = "Draw!"
+			}
+				
+			let _popup = BuildPopUp(
+				win_text.toString(),
+				"yes",
+				() => console.log("yes works"));//you can exlude the cancel value and you wont have that button appear
+		}
 	}
 	catch (error) {
 		console.error(error);

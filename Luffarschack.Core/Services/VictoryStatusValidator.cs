@@ -5,37 +5,33 @@ public class VictoryStatusValidator
 {
     const int maxAmountOfTurns = 4 * 4;
 
-    public int CurrentGameState(GameState boardState, MoveRequest move)
+    public int CheckGameOutcome(GameState boardState, MoveRequest move)
     {
-        return CurrentGameState(boardState.BoardState, boardState.Turn, move);
+        return CheckGameOutcome(boardState.BoardState, boardState.Turn, move);
     }
 
-    public int CurrentGameState(int[,,] board, int turn, MoveRequest move)
+    public int CheckGameOutcome(int[,,] board, int turn, MoveRequest move)
     {
-        if (CheckForDraw(turn))
-        {
-            return -1;
-        }
-        else
-        {
-            return CheckForWinner(board, move);
-        }
+        if (CheckForDraw(turn)) return -1;
+        
+        return CheckForWinner(board, move);
+       
     }
     private static bool CheckForDraw(int turns) => (turns >= maxAmountOfTurns);
 
     private static int CheckForWinner(int[,,] board, MoveRequest move)
     {
-        int x = move.x;
-        int y = move.y;
-        int z = move.z;
-
         if (move == null) // In case move request isn't sent
         {
             Console.Error.Write("No Move Request was Given to CheckForWinner()");
             return 0;
         }
 
-        if (board[x, y, z] != 0)
+        int x = move.x;
+        int y = move.y;
+        int z = move.z; 
+
+        if (board[x, y, z] != 0) //can this ensure that it not checking the wrong player?
         {
             // Check X directional
             int i = 0;
@@ -56,17 +52,31 @@ public class VictoryStatusValidator
                     y_dir_value++;
                     if (y_dir_value >= 4) return value;
                 }
-                if (board[x, y, (y + i) % 4] == value)
+                if (board[x, y, (z + i) % 4] == value)
                 {
                     z_dir_value++;
                     if (z_dir_value >= 4) return value;
                 }
                 i++;
             }
-            if (z_dir_value >= 4 || y_dir_value >= 4 || x_dir_value >= 4) return value; // Backup
+            if (z_dir_value >= 4 || y_dir_value >= 4 || x_dir_value >= 4) return value; // Backup 
+
+            //check for diagonals in 2d plane
             if (board[0, 0, z] == value && board[1, 1, z] == value && board[2, 2, z] == value && board[3, 3, z] == value) return value;
             if (board[3, 0, z] == value && board[2, 1, z] == value && board[1, 2, z] == value && board[0, 3, z] == value) return value;
-            // Diagonals will be annoying in 3d so will be done much later lol
+
+            //check for diagonals in 3d plane
+            if (board[x, 3, 3] == value && board[x, 2, 2] == value && board[x, 1, 1] == value && board[x, 0, 0] == value) return value;
+            if (board[x, 3, 0] == value && board[x, 2, 1] == value && board[x, 1, 2] == value && board[x, 0, 3] == value) return value;
+
+            if (board[3, y, 3] == value && board[2, y, 2] == value && board[1, y, 1] == value && board[0, y, 0] == value) return value;
+            if (board[0, y, 3] == value && board[1, y, 2] == value && board[2, y, 1] == value && board[3, y, 0] == value) return value;
+
+            //check diagonals across the 3d board 
+            if (board[0, 0, 0] == value && board[1, 1, 1] == value && board[2, 2, 2] == value && board[3, 3, 3] == value) return value;
+            if (board[3, 0, 0] == value && board[2, 1, 1] == value && board[1, 2, 2] == value && board[0, 3, 3] == value) return value;
+            if (board[0, 3, 0] == value && board[1, 2, 1] == value && board[2, 1, 2] == value && board[3, 0, 3] == value) return value;
+            if (board[0, 0, 3] == value && board[1, 1, 2] == value && board[2, 2, 1] == value && board[3, 3, 0] == value) return value;
         }
 
         return 0;

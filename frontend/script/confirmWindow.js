@@ -1,6 +1,13 @@
 //refactor for building form when button clicked
 
+const all_pop_up_check = document.getElementById("skip_all_popup");
+
 export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel,) {
+	if (all_pop_up_check == "Yes")
+	{
+		onConfirm();
+		return;
+	}
 
     const dialog = document.createElement("dialog");
     const message = document.createElement("p");
@@ -52,7 +59,7 @@ button.textContent = "YesNo"
 button2.textContent = "YesOnly"
 
 button.addEventListener("click",
-    () => buildPopUp(
+    () => BuildPopUp(
        
         "message?",
         "yes",
@@ -62,7 +69,7 @@ button.addEventListener("click",
 
 
 button2.addEventListener("click",
-    () => buildPopUp(
+    () => BuildPopUp(
         "message?",
         "yes",
         () => console.log("yes works")));//you can exlude the cancel value and you wont have that button appear

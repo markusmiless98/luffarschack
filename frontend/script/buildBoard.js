@@ -1,16 +1,34 @@
 import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
+import { BuildPopUp } from "./confirmWindow.js";
 
 const board = document.getElementById("board");
+const pop_up_check = document.getElementById("skip_popup");
 const size = 4;
 
-async function BuildBoard() {
+async function BuildBoard()
+{
 	for (let x = 0; x < size; x++) {
 		for (let y = 0; y < size; y++) {
 			const cell = document.createElement("button");
 			cell.id = "Cell " + x.toString() + " " + y.toString();
 			cell.className = "cell";
 			cell.addEventListener("click", () => {
-				TryApiCall(x, y, cell)
+				// Have info sent elsewhere instead of popup in future
+				// So that instead of popup it is click and then press button to confirm
+				if (pop_up_check.value == "No"){
+					cell.disabled = true;
+					const popup = BuildPopUp(
+						"Want to place here?",
+						"yes",
+						() => TryApiCall(x, y, cell),
+						"no",
+						() => cell.disabled = false,
+					); //put what you want to run when user presses cancel
+				}
+				else{
+					TryApiCall(x, y, cell)
+				}
+
 			});
 			board.appendChild(cell);
 		}

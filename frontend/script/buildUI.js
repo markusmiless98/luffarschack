@@ -1,5 +1,6 @@
 import { NewGameRequest } from "./apiServiceScript.js";
 import { CheckUpdateBoard } from "./buildBoard.js";
+import { BuildPopUp, test } from "./confirmWindow.js";
 
 const ui_layout = document.getElementById("ui_side");
 
@@ -31,3 +32,5 @@ async function BuildUI()
 }
 
 BuildUI();
+
+test();

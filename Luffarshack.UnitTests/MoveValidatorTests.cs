@@ -64,7 +64,7 @@ namespace Luffarshack.UnitTests
         [Theory]
         [InlineData(4, 0, 0)]
         [InlineData(-1, 0, 0)]
-        public void IsValidMove_OutOfBounds_ReturnsFalse( int x, int y, int z)
+        public void IsMove_OutOfBounds_ReturnsFalse( int x, int y, int z)
         {
             //arrange
             var board = new int[4, 4, 4];

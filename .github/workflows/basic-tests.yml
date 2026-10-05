@@ -7,12 +7,10 @@ on:
     branches: 
       - main
       - development
-      - feat-unit-tests
   pull_request: 
     branches: 
       - main
       - development
-      - feat-unit-tests
 jobs:
   Backend-Test:
     runs-on: ubuntu-latest

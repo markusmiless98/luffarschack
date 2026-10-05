@@ -10,23 +10,14 @@ public class MakeMoveTests
     [Fact]
     public void MakeMove_EmptyCell_ReturnsTrue()
     {
+        // arrange
         var service = new GameService();
         service.StartGame(2);
-
+        // act
         var result = service.MakeMove(new MoveRequest { x = 1, y = 2, z = 3 });
-
-        Assert.True(result);
-    }
-
-    [Fact]
-    public void MakeMove_EmptyCell_PlacesCurrentPlayer()
-    {
-        var service = new GameService();
-        service.StartGame(2);
-
-        var result = service.MakeMove(new MoveRequest{x = 1, y = 2, z = 3});
-
-        Assert.Equal(1, service.GameState.BoardState[1, 2, 3]);
+        // assert
+        Assert.True(result); // Result was successful
+        Assert.Equal(1, service.GameState.BoardState[1, 2, 3]); // player one is at this place
     }
 
     [Fact]
@@ -37,23 +28,13 @@ public class MakeMoveTests
 
         var result = service.MakeMove(new MoveRequest { x = 1, y = 2, z = 3 });
 
-        Assert.Equal(1, service.GameState.Turn);
-    }
-
-    [Fact]
-    public void MakeMove_EmptyCell_SetsCorrectCurrentPlayer()
-    {
-        var service = new GameService();
-        service.StartGame(2);
-
-        service.MakeMove(new MoveRequest { x = 1, y = 2, z = 3 });//player 1 does move now it should be player 2's turn
-
-        Assert.Equal(2, service.GameState.CurrentPlayer);
+        Assert.Equal(1, service.GameState.Turn); // Checks turn swapped
+        Assert.Equal(2, service.GameState.CurrentPlayer); // checks it is player 2's turn (which is part of turn passing)
     }
 
 
     [Fact]
-    public void MakeMove_OccupiedCell_ReturnsFalse()
+    public void MakeMove_OccupiedCell_DoesNotPlaceOrAdvanceTurn()
     {
         var service = new GameService();
         service.StartGame(2);
@@ -61,32 +42,9 @@ public class MakeMoveTests
 
         var result = service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 });
 
-        Assert.False(result);
-    }
-
-    [Fact]
-    public void MakeMove_OccupiedCell_DoesNotAdvanceTurn()
-    {
-        var service = new GameService();
-        service.StartGame(2);
-        service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 }); 
-
-        service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 });
-
-        Assert.Equal(1, service.GameState.Turn);           
-    }
-
-    [Fact]
-    public void MakeMove_OccupiedCell_DoesNotChangeBoard()
-    {
-        var service = new GameService();
-        service.StartGame(2);
-        service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 });
-
-        service.MakeMove(new MoveRequest { x = 0, y = 0, z = 0 });
-
-        Assert.Equal(1, service.GameState.BoardState[0, 0, 0]);
-        //other assertions can be added to check that other cells remain unchanged
+        Assert.False(result); // Player failed to perform action
+        Assert.Equal(1, service.GameState.Turn); // Turn doesn't advance past 1
+        Assert.Equal(1, service.GameState.BoardState[0, 0, 0]); // Doesn't change the board
     }
 
     [Theory]

@@ -10,7 +10,7 @@ namespace Luffarschack.Orchestration;
 public class GameService : IGameService
 {
     public GameState GameState { get; set; } 
-
+    public VictoryStatusValidator VictoryValidator = new VictoryStatusValidator();//this should either be made into a static class or sent in via DI but im putting it here for now to ensure that everything works
     public GameService()
     {
         //temporaray initilization of gamestate
@@ -41,6 +41,7 @@ public class GameService : IGameService
             {
                 GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
                 GameState.Turn++;
+                GameState.Winner = VictoryValidator.CheckGameOutcome(GameState, move);
                 GoToNextPlayer();
                 return true;
             }

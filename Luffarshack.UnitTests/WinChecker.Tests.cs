@@ -16,7 +16,7 @@ namespace Luffarshack.UnitTests
         {
             //arrange
             var service = new GameService();
-            var pop = new VictoryStatusValidator();
+            var validator = new VictoryStatusValidator();
 
             //act
             service.StartGame(2);
@@ -35,7 +35,7 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(3, 0, 0);
             service.MakeMove(move);
 
-            int i = pop.CurrentGameState(service.GameState, move);
+            int i = validator.CheckGameOutcome(service.GameState, move);
 
             //assert
             Assert.True(i > 0);
@@ -47,7 +47,7 @@ namespace Luffarshack.UnitTests
         {
             //arrange
             var service = new GameService();
-            var pop = new VictoryStatusValidator();
+            var validator = new VictoryStatusValidator();
             
             //act
             service.StartGame(2);
@@ -66,7 +66,7 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(x, y, z);
             service.MakeMove(move);
 
-            int i = pop.CurrentGameState(service.GameState, move);
+            int i = validator.CheckGameOutcome(service.GameState, move);
 
             //assert
             Assert.Equal(player,i);
@@ -76,7 +76,7 @@ namespace Luffarshack.UnitTests
         {
             //arrange
             var service = new GameService();
-            var pop = new VictoryStatusValidator();
+            var validator = new VictoryStatusValidator();
 
             //act
             service.StartGame(2);
@@ -104,7 +104,7 @@ namespace Luffarshack.UnitTests
             }
 
 
-            int i = pop.CurrentGameState(service.GameState, move);
+            int i = validator.CheckGameOutcome(service.GameState, move);
 
             //assert
             Assert.Equal(-1, i);

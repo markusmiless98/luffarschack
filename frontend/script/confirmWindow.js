@@ -3,7 +3,7 @@
 const all_pop_up_check = document.getElementById("skip_all_popup");
 
 export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel,) {
-	if (all_pop_up_check == "Yes")
+	if (all_pop_up_check.value == "Yes")
 	{
 		onConfirm();
 		return;

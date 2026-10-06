@@ -1,3 +1,11 @@
+#field * {
+	display:inline-table;
+}
+.option_title{
+	font-size:120%;
+	font-weight:bold;
+}
+
 #board {
     display: grid;
     grid-template-columns: repeat(4, 80px);
@@ -7,4 +15,14 @@
 
 .cell {
     height: 80px;
+}
+.sideblock{
+	position:fixed;
+	max-width:50%;
+}
+#ui_side{
+	width:300px;
+}
+#ui_side select {
+	width:50px;
 }

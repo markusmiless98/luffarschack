@@ -21,28 +21,29 @@
 			</button>
 		</div> -->
 
-		<div id="board"></div>
-		<div id="ui_side">
-			<div id="reset-buttons">
-				Restart Game
+	<div id="field">
+		<div>
+			<div id="board"></div>
+		</div>
+		<div class="sideblock">
+			<div id="ui_side" class="side-options">
+				<div class="option_title">Options:</div>
+				<form id="option_side">
+					<div>
+						Disable ALL Popups?
+						<select id="skip_all_popup">
+							<option>No</option>
+							<option>Yes</option>
+						</select>
+					</div>
+				</form>
+				<div>
+					Restart Game
+				</div>
+				<div id="reset_buttons"></div>
 			</div>
 		</div>
-		<form id="pop_up">
-			<div>
-				Disable ALL Popups?
-				<select id="skip_all_popup">
-					<option>No</option>
-					<option>Yes</option>
-				</select>
-			</div>
-			<div>
-				Disable Placement Popups?
-				<select id="skip_popup">
-					<option>No</option>
-					<option>Yes</option>
-				</select>
-			</div>
-		</form>
+	</div>
 	
 		<script type="module"	src="./script/buildUI.js"></script>
 		<script type="module"	src="./script/buildBoard.js"></script>

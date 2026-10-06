@@ -2,7 +2,6 @@ import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
 import { BuildPopUp } from "./confirmWindow.js";
 
 const board = document.getElementById("board");
-const pop_up_check = document.getElementById("skip_popup");
 const size = 4;
 
 async function BuildBoard()
@@ -12,9 +11,11 @@ async function BuildBoard()
 			const cell = document.createElement("button");
 			cell.id = "Cell " + x.toString() + " " + y.toString();
 			cell.className = "cell";
+			cell.innerText = "0";
 			cell.addEventListener("click", () => {
 				// Have info sent elsewhere instead of popup in future
 				// So that instead of popup it is click and then press button to confirm
+				let pop_up_check = document.getElementById("skip_popup");
 				if (pop_up_check.value == "No"){
 					cell.disabled = true;
 					const popup = BuildPopUp(
@@ -96,15 +97,22 @@ export async function CheckUpdateBoard()
 		if (_winner == true)
 		{
 			//console.log("Player " + _board.winner " won");
-			let win_text = "Player " + _board.winner.toString() + " won!";
+			let win_text = "Player " + _board.winner.toString() + " won!\nWanna start new game?";
 			if (_board.winner == "-1"){
-				win_text = "Draw!"
+				win_text = "Draw!\nWanna start new game?"
 			}
 				
 			let _popup = BuildPopUp(
 				win_text.toString(),
-				"yes",
-				() => console.log("yes works"));//you can exlude the cancel value and you wont have that button appear
+				"Yes",
+				() => {
+					NewGameRequest(2)
+					// Should have check for no error
+					CheckUpdateBoard();
+				},
+				"No",
+				() => console.log("Didn't start new game"),
+			);
 		}
 	}
 	catch (error) {

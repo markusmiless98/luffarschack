@@ -65,7 +65,7 @@ async function CreateYesNoOptionElement(title, id)
 }
 
 async function CallRequest(num){
-	const check = await NewGameRequest(2);
+	const check = await NewGameRequest(num);
 	if (check == true)
 	{
 		CheckUpdateBoard();

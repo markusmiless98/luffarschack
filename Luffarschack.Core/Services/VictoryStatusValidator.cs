@@ -4,45 +4,39 @@ namespace Luffarschack.Core.Services;
 public class VictoryStatusValidator
 {
     const int maxAmountOfTurns = 4 * 4;
-
-    //any comment that starts with //> is a comment about what i changed
-    public int CheckGameOutcome(GameState gameState, MoveRequest move) //>renamed boardState to gameState becuse its more clear
+    public int CheckGameOutcome(GameState gameState, MoveRequest move)
     {
-        //>move the null check up so it wont even try if the move request is null
         if (move == null) // In case move request isn't sent
         {
             Console.Error.Write("No Move Request was Given to CheckGameOutcome()");
             return 0;
         }
 
-        //> you can get the player from the gameState
         return CheckGameOutcome(gameState.BoardState, gameState.Turn, gameState.CurrentPlayer, move.x, move.y, move.z);
     }
 
-    public int CheckGameOutcome(int[,,] board, int player, int turn, int x, int y, int z) //> changed the args here so that its easyer to test as an individual unit
+    public int CheckGameOutcome(int[,,] board, int player, int turn, int x, int y, int z) 
     {
-        if (board[x, y, z] != player) return 0;//> this code to ensures that the player in the GameState is the one that did the move, should probably return an error, or print an error
+        if (board[x, y, z] != player) return 0;
 
         if (CheckForDraw(turn)) return -1;
         
-        return CheckForWinner(board, player, x, y, z);//> maybe check for winner returns bool and then the CheckGameOutcome returns the player value if true
+        return CheckForWinner(board, player, x, y, z);
 
     }
     private static bool CheckForDraw(int turns) => (turns >= maxAmountOfTurns);
 
-    private static int CheckForWinner(int[,,] board, int player, int x, int y, int z)//> changed MoveRequest arg to x, y, z //i also added player as an in arg
+    private static int CheckForWinner(int[,,] board, int player, int x, int y, int z)
     {
-
-        //> i think its not the responcibility of the CheckIfWinner method to ensure that the value on the move is not 0 and it shuld be checked before the method is used
         
         // Check X directional
         int x_dir_value = 0;
         int y_dir_value = 0;
         int z_dir_value = 0;
 
-        for(int i = 0; i < 4; i++) //>i think a for loop is better here
+        for(int i = 0; i < 4; i++) 
         {
-            if (board[(x + i) % 4, y, z] == player)//>i added the player so that it can check against that instead of the value on the move position
+            if (board[(x + i) % 4, y, z] == player)
             {
                 x_dir_value++;
                 if (x_dir_value >= 4) return player;

@@ -44,6 +44,7 @@ async function BuildUI()
 
 async function CreateYesNoOptionElement(title, id)
 {
+	// Temporary variables in here thus _ in front of them
 	if (id == null){
 		console.log("Failed");
 		return;
@@ -54,10 +55,10 @@ async function CreateYesNoOptionElement(title, id)
 	}
 	const _select = document.createElement("select")
 	_select.id = id;
-	const option_no = document.createElement("option");
-	option_no.innerText = "No";
-	const option_yes = document.createElement("option");
-	option_yes.innerText = "Yes";
+	const _option_no = document.createElement("option");
+	_option_no.innerText = "No";
+	const _option_yes = document.createElement("option");
+	_option_yes.innerText = "Yes";
 	_select.appendChild(option_no);
 	_select.appendChild(option_yes);
 	_parent.appendChild(_select);

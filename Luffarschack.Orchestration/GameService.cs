@@ -39,7 +39,7 @@ public class GameService : IGameService
         {
             try //this try catch is in case i've missed something in the validation, it should not crash the program
             {
-                GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
+                PlaceMove(move);
                 GameState.Turn++;
                 GameState.Winner = VictoryValidator.CheckGameOutcome(GameState, move);
                 GoToNextPlayer();
@@ -54,6 +54,11 @@ public class GameService : IGameService
         {
             return false;
         }
+    }
+
+    private void PlaceMove(MoveRequest move)
+    {
+        GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
     }
 
     private void GoToNextPlayer()

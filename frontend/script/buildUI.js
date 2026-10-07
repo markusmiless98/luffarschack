@@ -8,21 +8,6 @@ const option_side = document.getElementById("option_side");
 
 async function BuildUI()
 {
-	/*
-	const _button = document.createElement("Button");
-	_button.id = "restart 1";
-	_button.innerText = "restart"
-	_button.addEventListener("click", async() => {
-		const popup = BuildPopUp(
-			"Start New Game?",
-			"yes",
-			() => CallRequest(2),
-			"no",
-			() => console.log("Close Window"),
-		); //put what you want to run when user presses cancel
-	});
-	ui_side.appendChild(_button);
-	*/
 	for (let i = 2; i < 5; i++)
 	{
 		const reset_but = document.createElement("Button");

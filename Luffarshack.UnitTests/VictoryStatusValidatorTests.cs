@@ -22,7 +22,7 @@ namespace Luffarshack.UnitTests
             board[1,0,0] = player;
             board[2,0,0] = player;
             board[3,0,0] = player;
-            int turn = 0; // does not need to be a valid turn becuse it is only checking that the method can detect a win
+            int turn = 7; 
             int x = 3, y = 0, z = 0;
 
             //act
@@ -45,7 +45,7 @@ namespace Luffarshack.UnitTests
             board[1, 1, 1] = player;
             board[2, 2, 2] = player;
             board[3, 3, 3] = player;
-            int turn = 0;
+            int turn = 7;
             int x = 0, y = 0, z = 0; 
 
             //act

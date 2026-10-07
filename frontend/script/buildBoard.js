@@ -1,35 +1,16 @@
 import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
-import { BuildPopUp } from "./confirmWindow.js";
 
 const board = document.getElementById("board");
 const size = 4;
 
-async function BuildBoard()
-{
-	for (let x = 0; x < size; x++) {
-		for (let y = 0; y < size; y++) {
+async function BuildBoard() {
+	for (let y = 0; y < size; y++) {
+		for (let x = 0; x < size; x++) {
 			const cell = document.createElement("button");
 			cell.id = "Cell " + x.toString() + " " + y.toString();
 			cell.className = "cell";
-			cell.innerText = "0";
 			cell.addEventListener("click", () => {
-				// Have info sent elsewhere instead of popup in future
-				// So that instead of popup it is click and then press button to confirm
-				let pop_up_check = document.getElementById("skip_popup");
-				if (pop_up_check.value == "No"){
-					cell.disabled = true;
-					const popup = BuildPopUp(
-						"Want to place here?",
-						"yes",
-						() => TryApiCall(x, y, cell),
-						"no",
-						() => cell.disabled = false,
-					); //put what you want to run when user presses cancel
-				}
-				else{
-					TryApiCall(x, y, cell)
-				}
-
+				TryApiCall(x, y, cell)
 			});
 			board.appendChild(cell);
 		}
@@ -92,27 +73,6 @@ export async function CheckUpdateBoard()
 			y = 0;
 			z++;
 			if (z > 0) break;
-		}
-		
-		if (_winner == true)
-		{
-			//console.log("Player " + _board.winner " won");
-			let win_text = "Player " + _board.winner.toString() + " won!\nWanna start new game?";
-			if (_board.winner == "-1"){
-				win_text = "Draw!\nWanna start new game?"
-			}
-				
-			let _popup = BuildPopUp(
-				win_text.toString(),
-				"Yes",
-				() => {
-					NewGameRequest(2)
-					// Should have check for no error
-					CheckUpdateBoard();
-				},
-				"No",
-				() => console.log("Didn't start new game"),
-			);
 		}
 	}
 	catch (error) {

@@ -1,9 +1,9 @@
 //refactor for building form when button clicked
 
-const all_pop_up_check = document.getElementById("skip_all_popup");
+const global_pop_ups_disabled = document.getElementById("skip_all_popup");
 
 export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel,) {
-	if (all_pop_up_check.value == "Yes")
+	if (global_pop_ups_disabled.value == "Yes")
 	{
 		onConfirm();
 		return;

@@ -4,8 +4,8 @@ const board = document.getElementById("board");
 const size = 4;
 
 async function BuildBoard() {
-	for (let x = 0; x < size; x++) {
-		for (let y = 0; y < size; y++) {
+	for (let y = 0; y < size; y++) {
+		for (let x = 0; x < size; x++) {
 			const cell = document.createElement("button");
 			cell.id = "Cell " + x.toString() + " " + y.toString();
 			cell.className = "cell";

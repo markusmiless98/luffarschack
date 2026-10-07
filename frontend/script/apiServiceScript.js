@@ -48,7 +48,7 @@ export async function MoveRequest(x,y,z)
 export async function NewGameRequest(num)
 {
 	try{
-		let _url = gameUrl + "/new?players=" + num.toString();
+		let _url = gameUrl + "/new?players=" + num.toString(); // Temporary variable
 		const data = {"players":num};
 		const response = await fetch(_url, {
 		  method: "POST",
@@ -59,8 +59,8 @@ export async function NewGameRequest(num)
 			throw new Error(`Response status: ${response.status}`);
 			return false;
 		}
-		const _fet = await GetFetch();
-		if (_fet != null){
+		const fetch_result = await GetFetch();
+		if (fetch_result != null){
 			return true;
 		}
 		return false;

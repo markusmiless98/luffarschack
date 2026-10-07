@@ -2,7 +2,7 @@
 
 const global_pop_ups_disabled = document.getElementById("skip_all_popup");
 
-export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel,) {
+export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel) {
 	if (global_pop_ups_disabled.value == "Yes")
 	{
 		onConfirm();

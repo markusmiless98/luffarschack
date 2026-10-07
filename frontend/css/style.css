@@ -1,5 +1,7 @@
-#field * {
+#field *:child {
+	/*
 	display:inline-table;
+	*/
 }
 .option_title{
 	font-size:120%;
@@ -7,6 +9,12 @@
 }
 
 #board {
+    display: grid;
+	/*
+    grid-template-columns: repeat(4, 80px);
+	*/
+}
+.board {
     display: grid;
     grid-template-columns: repeat(4, 80px);
     gap: 4px;
@@ -16,9 +24,17 @@
 .cell {
     height: 80px;
 }
+.invisible{
+	height:1px;
+	width:1px;
+	opacity:0.5;
+}
 .sideblock{
-	position:fixed;
+	position:absolute;
 	max-width:50%;
+}
+.sideblock:nth-of-type(2){
+	left:400px;
 }
 #ui_side{
 	width:300px;

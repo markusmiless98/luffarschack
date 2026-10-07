@@ -4,23 +4,28 @@ const board = document.getElementById("board");
 const size = 4;
 
 async function BuildBoard() {
-	for (let y = 0; y < size; y++) {
-		for (let x = 0; x < size; x++) {
-			const cell = document.createElement("button");
-			cell.id = "Cell " + x.toString() + " " + y.toString();
-			cell.className = "cell";
-			cell.addEventListener("click", () => {
-				TryApiCall(x, y, cell)
-			});
-			board.appendChild(cell);
+	for (let z = 0; z < size; z++){
+		const board_containter = document.createElement("div");
+		board_containter.className = "board";
+		for (let y = 0; y < size; y++) {
+			for (let x = 0; x < size; x++) {
+				const cell = document.createElement("button");
+				cell.id = "Cell " + x.toString() + " " + y.toString() + " " + z.toString();
+				cell.className = "cell";
+				cell.addEventListener("click", () => {
+					TryApiCall(x, y, z, cell)
+				});
+				board_containter.appendChild(cell);
+			}
 		}
+		board.appendChild(board_containter);
 	}
 }
 
-async function TryApiCall(x, y, cell) {
+async function TryApiCall(x, y, z, cell) {
 	cell.disabled = true;
 	try {
-		const result = await MoveRequest(0,y,x); // Due to button setup this has to be reversed
+		const result = await MoveRequest(z,y,x); // Due to button setup this has to be reversed
 		if (result.ok)
 		{
 			await CheckUpdateBoard();
@@ -35,19 +40,6 @@ async function TryApiCall(x, y, cell) {
 export async function CheckUpdateBoard()
 {
 	try {
-		/*
-		const json_temp = `{
-		  "BoardState": [
-			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
-			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
-			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
-			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-		  ],
-		  "Winner": 0,
-		  "Turn": 0,
-		  "CurrentPlayer": 0
-		}`;
-		*/
 		const json_fetch = await GetFetch();
 		const _temp = JSON.stringify(json_fetch);
 		
@@ -63,7 +55,7 @@ export async function CheckUpdateBoard()
 			{
 				for (const _column of _row)
 				{
-					UpdateBoard(x,y,0,_column, _winner);
+					UpdateBoard(x,y,z,_column, _winner);
 					x++;
 				}
 				x = 0;
@@ -72,7 +64,6 @@ export async function CheckUpdateBoard()
 			x = 0;
 			y = 0;
 			z++;
-			if (z > 0) break;
 		}
 	}
 	catch (error) {
@@ -85,7 +76,7 @@ function UpdateBoard(x,y,z,tar,win)
 {
 	if (x == null || y == null || z == null) return false;
 	
-	let _id = "Cell " + x.toString() + " " + y.toString();
+	let _id = "Cell " + x.toString() + " " + y.toString() + " " + z.toString();
 	const _boardPlace = document.getElementById(_id);
 	_boardPlace.innerText = tar.toString();
 	if (win == true || _boardPlace.innerText != "0")

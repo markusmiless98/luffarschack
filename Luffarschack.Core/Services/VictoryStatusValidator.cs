@@ -12,15 +12,15 @@ public class VictoryStatusValidator
             return 0;
         }
 
-        return CheckGameOutcome(gameState.BoardState, gameState.Turn, gameState.CurrentPlayer, move.x, move.y, move.z);
+        return CheckGameOutcome(gameState.BoardState, gameState.CurrentPlayer, gameState.Turn, move.x, move.y, move.z);
     }
 
     public int CheckGameOutcome(int[,,] board, int player, int turn, int x, int y, int z) 
     {
+        if (CheckForDraw(turn)) return -1;
+
         if (board[x, y, z] != player) return 0;
 
-        if (CheckForDraw(turn)) return -1;
-        
         return CheckForWinner(board, player, x, y, z);
 
     }

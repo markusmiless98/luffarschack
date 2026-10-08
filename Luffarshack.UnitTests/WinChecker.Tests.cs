@@ -35,11 +35,11 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(3, 0, 0);
             service.MakeMove(move);
 
-            int i = validator.CheckGameOutcome(service.GameState, move);
-
+            int i = validator.CheckGameOutcome(service.GameState.BoardState, 1, service.GameState.Turn, move.x, move.y, move.z);
             //assert
             Assert.True(i > 0);
         }
+
         [Theory]
         [InlineData(3,0,0,1)] // Checks if player 1 won
         [InlineData(1, 2, 0, 0)] // Checks in case it didn't happen
@@ -66,7 +66,8 @@ namespace Luffarshack.UnitTests
             move = new MoveRequest(x, y, z);
             service.MakeMove(move);
 
-            int i = validator.CheckGameOutcome(service.GameState, move);
+            int i = validator.CheckGameOutcome(service.GameState.BoardState, player, service.GameState.Turn, move.x, move.y, move.z);
+
 
             //assert
             Assert.Equal(player,i);

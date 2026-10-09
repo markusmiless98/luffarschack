@@ -1,16 +1,23 @@
-function buildGameViewSvg(onCubeClick = (x,y,z) => console.log(`this cube was x:${x} y:${y} z:${z}`)) {
-    const SVG = document.querySelector('.svg');
-    const LAYERS = [];
-    const BUTTONS = [];
+export function buildGameView(onCubeClick = (x, y, z) => console.log(`this cube was x:${x} y:${y} z:${z}`)) {
+    const svg = document.querySelector('.svg');
+    const layers = createLayers(svg, onCubeClick);
+    const buttons = createLayerButtons(layers, svg)
 
+    const view = { svg, layers, buttons };
+    let layerGap = 40; //sets start gap between layers
+    const gapMax = 60;
+    const gapMin = 15;
 
-    const GAP_MAX = 60;
+    positionLayers(layers, gapMax)
+    setSvgViewBoxSize(svg);
+    positionLayers(layers, layerGap)
 
-    layerinator(SVG, LAYERS, onCubeClick());
-    positionLayers(LAYERS, 40)//sets start gap between layers
-    setSvgViewBoxSize(SVG);
-    buildLayerFocusToggels(BUTTONS, LAYERS, SVG)
-    select(null, LAYERS, BUTTONS, SVG)
+    buildSlider(gapMax, gapMin, layers, layerGap, svg)
+
+    select(null, layers, buttons, svg)
+
+    svg.addEventListener('click', () => select(null, layers, buttons, svg));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') select(null, layers, buttons, svg); });
 }
 
 // === svg functions ===
@@ -34,19 +41,16 @@ function cubinator(cubeSize) {
             </g>`;
 }
 
-function layerinator(
+function createLayers(
     //these are the only params you should need to create the image
-    svg, 
-    layers = [], 
+    svg,
     onCubeClick = (x, y, z) => console.log(`this cube is x:${x} y:${y} z:${z}`),
-
-    //i set some generic settings here can be changed of overidden by sending in diffrent params
-    cubeSize = 10, 
-    cubeAmount = 4, 
-    cubeGap = 1.2, 
-    layerAmount = 4, 
-    ns = 'http://www.w3.org/2000/svg', 
-    ) {
+    cubeSize = 10,
+    cubeAmount = 4,
+    cubeGap = 1.3,
+    layerAmount = 4,
+    ns = 'http://www.w3.org/2000/svg',) {
+    const layers = [];
     for (let l = 0; l < layerAmount; l++) {
         const layer = document.createElementNS(ns, 'g'); //i Aparently need to use createElementNS to create an svg element
         layer.setAttribute('class', 'layer');
@@ -64,9 +68,10 @@ function layerinator(
 
                 cell.addEventListener("click", () => {
                     //console.log(`this cube be x:${x} y:${y} z:${l}`)
-                    cell.classList.toggle('selected'); //can make diffrent css classes for
+                    //can make diffrent css classes for colors/diffrent players
+                    cell.classList.toggle('selected');
                     onCubeClick(x, y, l);
-                    
+
 
                 });
 
@@ -76,6 +81,7 @@ function layerinator(
         svg.appendChild(layer);
         layers.push(layer);
     }
+    return layers
 }
 
 function setSvgViewBoxSize(svg) {
@@ -95,7 +101,8 @@ buildGameViewSvg()
 //=== button functions ===
 
 
-function buildLayerFocusToggels(buttons, layers, svg) {
+function createLayerButtons(layers, svg) {
+    const buttons = [];
     const labels = ['All'];
     const layerToggles = document.getElementById("layer_toggles")
 
@@ -117,6 +124,7 @@ function buildLayerFocusToggels(buttons, layers, svg) {
         layerToggles.appendChild(button);
         buttons.push(button);
     }
+    return buttons;
 }
 
 function select(layerIndex, layers, buttons, svg) {
@@ -131,3 +139,23 @@ function select(layerIndex, layers, buttons, svg) {
         buttons[i].classList.toggle('active', i === (layerIndex === null ? 0 : layerIndex + 1)) //ternary for selecting the all button on index 0 if value is null
     }
 }
+
+//=== slider ===
+
+function buildSlider(gapMax, gapMin, layers, layerGap, svg) {
+    const gapInput = document.querySelector('#gapSlider');
+    const gapValue = document.querySelector('#gapValue');
+
+    gapInput.min = gapMin;
+    gapInput.max = gapMax;
+    gapInput.value = layerGap;
+    gapValue.textContent = layerGap;
+
+    gapInput.addEventListener('input', () => {
+        layerGap = Number(gapInput.value);
+        gapValue.textContent = layerGap;
+        positionLayers(layers, layerGap);
+        setSvgViewBoxSize(svg);
+    });
+}
+

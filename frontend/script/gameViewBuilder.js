@@ -8,9 +8,9 @@ export function buildGameView(onCubeClick = (x, y, z) => console.log(`this cube 
     const gapMax = 60;
     const gapMin = 15;
 
-    positionLayers(layers, gapMax)
+    positionLayers(layers, layerGap);
     setSvgViewBoxSize(svg);
-    positionLayers(layers, layerGap)
+
 
     buildSlider(gapMax, gapMin, layers, layerGap, svg)
 
@@ -69,8 +69,8 @@ function createLayers(
                 cell.addEventListener("click", () => {
                     //console.log(`this cube be x:${x} y:${y} z:${l}`)
                     //can make diffrent css classes for colors/diffrent players
-                    cell.classList.toggle('selected');
-                    onCubeClick(x, y, l);
+                    //cell.classList.toggle('selected');
+                    onCubeClick(x, y, l, cell);
 
 
                 });
@@ -94,9 +94,6 @@ function positionLayers(layers, gap) {
         layers[i].style.transform = `translate(0px, ${-i * gap}px)`;
     }
 }
-
-
-buildGameViewSvg()
 
 //=== button functions ===
 

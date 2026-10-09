@@ -1,6 +1,3 @@
-*{
-    border: 2px solid red;
-}
 html,
 body {
     width: 100%;
@@ -117,6 +114,8 @@ body.right .controls{
     /*this pops cube up*/
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.25));
 }
+
+.cell.locked { pointer-events: none;}
 
 /*
 color testing 

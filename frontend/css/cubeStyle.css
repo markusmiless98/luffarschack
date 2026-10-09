@@ -1,3 +1,6 @@
+*{
+    border: 2px solid red;
+}
 html,
 body {
     width: 100%;
@@ -5,36 +8,68 @@ body {
     margin: 0px;
     padding-bottom: 10px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
     gap: 16px;
 }
 
+body.center{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+body.left{
+    flex-direction: row;
+    align-items:flex-start;
+    justify-content:left;
+}
+
+body.right{
+    flex-direction: row-reverse;
+    align-items:flex-start;
+    justify-content:right;
+}
+
+
+
+
 .svg-container {
-    width: 30vh;
-    height: 90vh;
+    width: 40vh;
+    height: 95vh;
 
     display: flex;
     align-items: flex-end;
     justify-content: center;
-
-    border: 2px solid red;
+    padding: 10px;
 }
 
 svg {
     width: 100%;
     height: 100%;
-    border: 2px solid red;
     overflow: visible;
 }
 
 
 /* === layer buttons === */
+
 .controls {
     display: flex;
+    padding: 10px;
     gap: 8px;
 }
+
+body.left .controls{
+    flex-direction: column;
+}
+
+body.center .controls{
+    flex-direction: row;
+}
+
+body.right .controls{
+    flex-direction: column;
+}
+
 
 .controls button {
     font: inherit;

@@ -1,14 +1,19 @@
 function buildGameViewSvg(onCubeClick = (x,y,z) => console.log(`this cube was x:${x} y:${y} z:${z}`)) {
     const SVG = document.querySelector('.svg');
     const LAYERS = [];
+    const BUTTONS = [];
+
 
     const GAP_MAX = 60;
 
     layerinator(SVG, LAYERS, onCubeClick());
     positionLayers(LAYERS, 40)//sets start gap between layers
     setSvgViewBoxSize(SVG);
+    buildLayerFocusToggels(BUTTONS, LAYERS, SVG)
+    select(null, LAYERS, BUTTONS, SVG)
 }
 
+// === svg functions ===
 function cubinator(cubeSize) {
     //points
     let topmost = "0,0"
@@ -84,5 +89,45 @@ function positionLayers(layers, gap) {
     }
 }
 
+
 buildGameViewSvg()
 
+//=== button functions ===
+
+
+function buildLayerFocusToggels(buttons, layers, svg) {
+    const labels = ['All'];
+    const layerToggles = document.getElementById("layer_toggles")
+
+    for (let i = 0; i < layers.length; i++) {
+        labels.push(`Layer ${i + 1}`);
+    }
+
+    for (let i = 0; i < labels.length; i++) {
+        const button = document.createElement('button');
+        button.textContent = labels[i];
+
+        button.addEventListener('click', () => {
+            if (i === 0) {
+                select(null, layers, buttons, svg);
+            } else {
+                select(i - 1, layers, buttons, svg);
+            }
+        });
+        layerToggles.appendChild(button);
+        buttons.push(button);
+    }
+}
+
+function select(layerIndex, layers, buttons, svg) {
+    //the svg contains the layers and the layers have the .layer class and that class has .active 
+    svg.classList.toggle('focus', layerIndex !== null); //if layer index is null then true toggels off layer.active
+
+    for (let i = 0; i < layers.length; i++) {
+        layers[i].classList.toggle('active', i === layerIndex)//if index is LayerIndex then toggle layer on
+    }
+
+    for (let i = 0; i < layers.length; i++) {
+        buttons[i].classList.toggle('active', i === (layerIndex === null ? 0 : layerIndex + 1)) //ternary for selecting the all button on index 0 if value is null
+    }
+}

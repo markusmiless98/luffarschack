@@ -127,7 +127,7 @@ function select(layerIndex, layers, buttons, svg) {
         layers[i].classList.toggle('active', i === layerIndex)//if index is LayerIndex then toggle layer on
     }
 
-    for (let i = 0; i < layers.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
         buttons[i].classList.toggle('active', i === (layerIndex === null ? 0 : layerIndex + 1)) //ternary for selecting the all button on index 0 if value is null
     }
 }

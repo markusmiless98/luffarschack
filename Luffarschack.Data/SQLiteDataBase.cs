@@ -48,7 +48,8 @@ namespace Luffarschack.Database
 
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS GameState (
-                    Outcome INT,
+                    Turn INT,
+                    Players INT,
                     CurrentPlayer INT,
                     Winner INT
                 );

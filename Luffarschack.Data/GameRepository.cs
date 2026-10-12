@@ -66,7 +66,7 @@ namespace Luffarschack.Database
         private void UpdateGameState(GameState game)
         {
             using var cmd = _connection.CreateCommand();
-            cmd.CommandText = "UPDATE GameState SET CurrentPlayer = @currentPlayer, Outcome = @winner, Turn = @turn";
+            cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @currentPlayer, Outcome = @winner";
             cmd.Parameters.AddWithValue("@currentPlayer", game.CurrentPlayer);
             cmd.Parameters.AddWithValue("@winner", game.Winner);
             cmd.Parameters.AddWithValue("@turn", game.Turn);
@@ -76,7 +76,7 @@ namespace Luffarschack.Database
         public void SaveGame(GameState state)
         {
             using var cmd = _connection.CreateCommand();
-            cmd.CommandText = "UPDATE GameState SET CurrentPlayer = @player, Outcome = @winner";
+            cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @player, Outcome = @winner";
             cmd.Parameters.AddWithValue("@player", state.CurrentPlayer);
             cmd.Parameters.AddWithValue("@winner", state.Winner);
             cmd.Parameters.AddWithValue("@turn", state.Turn);
@@ -108,7 +108,13 @@ namespace Luffarschack.Database
 
         public void StartNewGame(int playerNum)
         {
-            throw new NotImplementedException();
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandText = "UPDATE GamePositions SET Player = 0";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "UPDATE GameState SET CurrentPlayer = 1, Outcome = 0, Turn = 0, PlayerCount = @players";
+            cmd.Parameters.AddWithValue("@players", playerNum);
+            cmd.ExecuteNonQuery();
         }
     }
 }

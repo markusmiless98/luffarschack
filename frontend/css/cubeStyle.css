@@ -117,26 +117,6 @@ body.right .controls{
 
 .cell.locked { pointer-events: none;}
 
-/*
-color testing 
-
-.topFace   { fill: #5F9EA0; }
-.leftFace  { fill: #4B7F81; }
-.rightFace { fill: #3A6264; }
-
-.topFace   { fill: #967B91; }
-.leftFace  { fill: #7E6678; }
-.rightFace { fill: #665160; }
-
-.topFace   { fill: #C5A85A; }
-.leftFace  { fill: #A88F4C; }
-.rightFace { fill: #8B763F; }
-
-.topFace   { fill: #7189B0; }
-.leftFace  { fill: #5E7395; }
-.rightFace { fill: #4B5D7A; }
-
-*/
 .hit {fill: transparent;}
 .topFace   { fill: #5F9EA0; }
 .leftFace  { fill: #4B7F81; }
@@ -147,7 +127,35 @@ color testing
 .selected .leftFace {fill: #AD6B4B;}
 .selected .rightFace {fill: #90563F;}
 
+/* === player colors === */
+/* i added quite a few colors as i am unsure what colors are suitable */
+.cube_color_coral .topFace   { fill: #F28B82; }
+.cube_color_coral .leftFace  { fill: #D96C66; }
+.cube_color_coral .rightFace { fill: #B85250; }
 
+.cube_color_green .topFace   { fill: #7FD1AE; }
+.cube_color_green .leftFace  { fill: #5FB28F; }
+.cube_color_green .rightFace { fill: #45926F; }
+
+.cube_color_amber .topFace   { fill: #F6C65B; }
+.cube_color_amber .leftFace  { fill: #D9A63F; }
+.cube_color_amber .rightFace { fill: #B88529; }
+
+.cube_color_orange .topFace   { fill: #FF9A3C; }
+.cube_color_orange .leftFace  { fill: #E67A1F; }
+.cube_color_orange .rightFace { fill: #BF5E12; }
+
+.cube_color_purple .topFace   { fill: #A78BFA; }
+.cube_color_purple .leftFace  { fill: #8668DB; }
+.cube_color_purple .rightFace { fill: #6A4FB8; }
+
+.cube_color_blue .topFace   { fill: #4DA3E0; }
+.cube_color_blue .leftFace  { fill: #2F86C4; }
+.cube_color_blue .rightFace { fill: #1F669C; }
+
+.cube_color_pink .topFace   { fill: #CC79A7; }
+.cube_color_pink .leftFace  { fill: #AA5F89; }
+.cube_color_pink .rightFace { fill: #884A6C; }
 
 /* === slider === */
 .slider {

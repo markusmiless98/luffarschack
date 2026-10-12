@@ -49,9 +49,9 @@ namespace Luffarschack.Database
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS GameState (
                     Turn INT,
-                    Players INT,
+                    PlayerCount INT,
                     CurrentPlayer INT,
-                    Winner INT
+                    Outcome INT
                 );
             ";
             command.ExecuteNonQuery();
@@ -84,29 +84,6 @@ namespace Luffarschack.Database
                     }
                 }
             }
-        }
-    
-
-
-        
-
-        private void Init2()
-        {
-            string dbPath = "Luffarschack.db";
-            using var connection = new SqliteConnection($"Data Source={_dbPath}");
-            connection.Open();
-            var command = connection.CreateCommand();
-            // Using TEXT instead of VARCHAR because SQLite treats them the same, and TEXT is simpler
-            // Channels table - Main Entity Table
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS GameState (
-                    GameId TEXT PRIMARY KEY,
-                    BoardState TEXT,
-                    CurrentPlayer INT,
-                    Winner INT
-                );
-            ";
-            command.ExecuteNonQuery();
         }
     }
 }

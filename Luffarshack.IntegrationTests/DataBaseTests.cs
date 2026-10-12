@@ -30,10 +30,10 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
         _repos.SaveGame(gameState);
         GameState fake = _repos.LoadGame(); // Maybe make into string later
 
-        Assert.True(fake != null);
-        Assert.True(fake.CurrentPlayer == 2);
-        Assert.True(fake.Turn == 1);
-        Assert.True(fake.BoardState[1,1,1] == 1);
+        Assert.NotNull(fake);
+        Assert.Equal(2, fake.CurrentPlayer);
+        Assert.Equal(1,fake.Turn);
+        Assert.Equal(1, fake.BoardState[1,1,1]);
     }
 
     [Theory]
@@ -45,7 +45,7 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
         _repos.StartNewGame(players);
         GameState fake = _repos.LoadGame(); // Maybe make into string later
 
-        Assert.True(fake != null);
-        Assert.True(fake.Players.Count == players);
+        Assert.NotNull(fake);
+        Assert.Equal(fake.Players.Count, players);
     }
 }

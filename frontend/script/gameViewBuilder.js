@@ -11,16 +11,19 @@ export function buildGameView(onCubeClick = (x, y, z) => console.log(`this cube 
     positionLayers(layers, layerGap);
     setSvgViewBoxSize(svg);
 
-
     buildSlider(gapMax, gapMin, layers, layerGap, svg)
 
     select(null, layers, buttons, svg)
 
     svg.addEventListener('click', () => select(null, layers, buttons, svg));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') select(null, layers, buttons, svg); });
+
+    //with this you can get specific cell elements by doing view.getCell(x, y, z)
+    return { getCell: (x, y, z) => svg.querySelector(`[data-pos="${x},${y},${z}"]`),}; 
 }
 
 // === svg functions ===
+
 function cubinator(cubeSize) {
     //points
     let topmost = "0,0"
@@ -51,7 +54,7 @@ function createLayers(
     layerAmount = 4,
     ns = 'http://www.w3.org/2000/svg',) {
     const layers = [];
-    for (let l = 0; l < layerAmount; l++) {
+    for (let z = 0; z < layerAmount; z++) {
         const layer = document.createElementNS(ns, 'g'); //i Aparently need to use createElementNS to create an svg element
         layer.setAttribute('class', 'layer');
 
@@ -60,19 +63,22 @@ function createLayers(
                 const offsetX = (x - y) * cubeSize * cubeGap;
                 const offsetY = (x + y) * cubeSize / 2 * cubeGap;
 
+                //prepare cell
                 const cell = document.createElementNS(ns, 'g');
                 cell.setAttribute('class', 'cell');
                 cell.style.transform = `translate(${offsetX}px, ${offsetY}px)`;//translate = move element by offsetX pixels right and offsetY pixels down
+                cell.innerHTML = cubinator(cubeSize) //svg cube contents
 
-                cell.innerHTML = cubinator(cubeSize) //set the svg contents like this
+                //set cell data
+                cell.dataset.pos = `${x},${y},${z}`;
+                cell.dataset.value = 0; // try setting player value for cell here?
 
                 cell.addEventListener("click", () => {
-                    //console.log(`this cube be x:${x} y:${y} z:${l}`)
-                    //can make diffrent css classes for colors/diffrent players
-                    //cell.classList.toggle('selected');
-                    onCubeClick(x, y, l, cell);
+                    onCubeClick(x, y, z, cell);
 
-
+                    console.log("cell data:")
+                    console.log(cell.dataset.pos)
+                    console.log(cell.dataset.value)
                 });
 
                 layer.appendChild(cell);
@@ -85,7 +91,7 @@ function createLayers(
 }
 
 function setSvgViewBoxSize(svg) {
-    const box = svg.getBBox();//is like get the values of the box round the svg after elements created, ill be honest i dont fully understand how dis work but i need it otherwize it wont work
+    const box = svg.getBBox();//svg has diffrent view box from html elements
     svg.setAttribute("viewBox", `${box.x} ${box.y} ${box.width} ${box.height}`);
 }
 
@@ -95,9 +101,7 @@ function positionLayers(layers, gap) {
     }
 }
 
-//=== button functions ===
-
-
+//=== layer button functions ===
 function createLayerButtons(layers, svg) {
     const buttons = [];
     const labels = ['All'];

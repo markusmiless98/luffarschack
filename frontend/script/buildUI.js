@@ -1,5 +1,5 @@
 import { NewGameRequest } from "./apiServiceScript.js";
-import { CheckUpdateBoard } from "./buildBoard.js";
+//import { CheckUpdateBoard } from "./buildBoard.js";
 import { BuildPopUp } from "./confirmWindow.js";
 
 const ui_layout = document.getElementById("ui_side");
@@ -54,7 +54,8 @@ async function CallRequest(num){
 	const check = await NewGameRequest(num);
 	if (check == true)
 	{
-		CheckUpdateBoard();
+		//CheckUpdateBoard(); 
+		//updateAllViewCells do this here
 	}
 }
 

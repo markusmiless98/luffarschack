@@ -1,3 +1,5 @@
+using Luffarschack.Core.Interface;
+using Luffarschack.Database;
 using Luffarschack.Orchestration;
 using Luffarschack.Orchestration.Interface;
 
@@ -21,7 +23,12 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "Luffarschack.db");
+
 builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddSingleton(new SqliteDatabase(dbPath));
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

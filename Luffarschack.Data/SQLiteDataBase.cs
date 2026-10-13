@@ -11,34 +11,21 @@ using System.Xml.Linq;
 
 namespace Luffarschack.Database
 {
-    public class SQLiteDataBase
+    public class SqliteDatabase
     {
         private readonly string _dbPath;
-
         private readonly SqliteConnection _connection;
 
-        private static SQLiteDataBase Db = new("Luffarschack");
-
-        public static SQLiteDataBase GetDb()
+        public SqliteDatabase(string dbPath)
         {
-            return Db;
-        }
-        public SqliteConnection GetConnection()
-        {
-            return _connection;
-        }
-        private SQLiteDataBase(string dbName)
-        {
-            //fix the file path somehow
-            _dbPath = $"{dbName}.db"; 
-
+            _dbPath = dbPath;
             _connection = new SqliteConnection($"Data Source={_dbPath}");
-
-            _connection.Open(); 
-
+            _connection.Open();
             Init();
-
         }
+
+        public SqliteConnection GetConnection() => _connection;
+        
         private void Init()
         {
             string dbPath = "Luffarschack.db";
@@ -67,7 +54,7 @@ namespace Luffarschack.Database
             command.ExecuteNonQuery();
 
             command.CommandText = @"
-            INSERT INTO GameState (Outcome, CurrentPlayer, Winner) VALUES (0, 0, 0);
+            INSERT INTO GameState (Turn, PlayerCount, CurrentPlayer, Outcome) VALUES (0, 0, 0, 0);
             ";
             command.ExecuteNonQuery();
 

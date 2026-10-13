@@ -1,6 +1,7 @@
 ﻿using Luffarschack.Core;
 using Luffarschack.Core.Interface;
 using Microsoft.Data.Sqlite;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 
@@ -8,11 +9,10 @@ namespace Luffarschack.Database
 {
     public class GameRepository : IGameRepository
     {
-        private readonly SQLiteDataBase _db = SQLiteDataBase.GetDb();
         private readonly SqliteConnection _connection;
-        public GameRepository()
+        public GameRepository(SqliteDatabase db)
         {
-            _connection = SQLiteDataBase.GetDb().GetConnection();
+            _connection = db.GetConnection();
         }
         public GameState LoadGame()
         {
@@ -23,21 +23,29 @@ namespace Luffarschack.Database
             using var reader = cmd.ExecuteReader();
 
             GameState gamestate = new();
- 
-            gamestate.CurrentPlayer = reader.GetInt32(1);
-            gamestate.Winner = reader.GetInt32(2);
-            gamestate.BoardState = getAllGamePositions();
+
+            if (reader.Read())
+            {
+                gamestate.Turn = reader.GetInt32(0);
+                gamestate.CurrentPlayer = reader.GetInt32(2);
+                gamestate.Winner = reader.GetInt32(3);
+                gamestate.BoardState = GetAllGamePositions();
+            }
+            else
+            {
+                Console.WriteLine("problem was encountered while loading game state.");
+            }
             
             return gamestate;
         }
-        private int[,,] getAllGamePositions()
+        private int[,,] GetAllGamePositions()
         {
             using var cmd = _connection.CreateCommand();
             cmd.CommandText = "SELECT * FROM GamePositions";
 
             using var reader = cmd.ExecuteReader();
             int[,,] boardState = new int[4, 4, 4];
-            while (reader.Read())
+            if (reader.Read())
             {
                 int x = reader.GetInt32(0);
                 int y = reader.GetInt32(1);
@@ -45,17 +53,39 @@ namespace Luffarschack.Database
                 int player = reader.GetInt32(3);
                 boardState[x, y, z] = player;
             }
+            else
+            {
+                Debug.WriteLine("problem was encountered while loading game positions.");
+            }
+
+
             return boardState;
         }
 
-        public void MakeMove(int x, int y, int z, int player, GameState game)
+        public void MakeMove(int x, int y, int z, int player, GameState game)//SaveMove might be better name
         {
-            UpdatePosition(x, y, z, player);
-            UpdateGameState(game);
+            try
+            {
+                //i'm using a transaction here becuse it will group the two commands and ensure that they are both executed together, if one fails the other will not be executed.
+                using var transaction = _connection.BeginTransaction();
+
+                UpdatePosition(x, y, z, player, transaction);
+                UpdateGameState(game, transaction);
+
+                transaction.Commit();
+                //return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[SaveMove] dbfail: {ex}");
+                //return false;
+            }
         }
-        private void UpdatePosition(int x, int y, int z, int player)
+
+        private void UpdatePosition(int x, int y, int z, int player, SqliteTransaction transaction)
         {
             using var cmd = _connection.CreateCommand();
+            cmd.Transaction = transaction;
             cmd.CommandText = "UPDATE GamePositions SET Player = @player WHERE x = @x AND y = @y AND z = @z";
             cmd.Parameters.AddWithValue("@x", x);
             cmd.Parameters.AddWithValue("@y", y);
@@ -63,9 +93,11 @@ namespace Luffarschack.Database
             cmd.Parameters.AddWithValue("@player", player);
             cmd.ExecuteNonQuery();
         }
-        private void UpdateGameState(GameState game)
+
+        private void UpdateGameState(GameState game, SqliteTransaction transaction)
         {
             using var cmd = _connection.CreateCommand();
+            cmd.Transaction = transaction;
             cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @currentPlayer, Outcome = @winner";
             cmd.Parameters.AddWithValue("@currentPlayer", game.CurrentPlayer);
             cmd.Parameters.AddWithValue("@winner", game.Winner);
@@ -75,31 +107,53 @@ namespace Luffarschack.Database
 
         public void SaveGame(GameState state)
         {
-            using var cmd = _connection.CreateCommand();
-            cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @player, Outcome = @winner";
-            cmd.Parameters.AddWithValue("@player", state.CurrentPlayer);
-            cmd.Parameters.AddWithValue("@winner", state.Winner);
-            cmd.Parameters.AddWithValue("@turn", state.Turn);
+            try
+            {
+                using var transaction = _connection.BeginTransaction();
 
-            cmd.ExecuteNonQuery();
+                using (var cmd = _connection.CreateCommand())
+                {
+                    //i'm using a transaction here becuse it will group the two commands and ensure that they are both executed together, if one fails the other will not be executed.
+                    cmd.Transaction = transaction;
+                    cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @player, Outcome = @winner";
+                    cmd.Parameters.AddWithValue("@player", state.CurrentPlayer);
+                    cmd.Parameters.AddWithValue("@winner", state.Winner);
+                    cmd.Parameters.AddWithValue("@turn", state.Turn);
+                    cmd.ExecuteNonQuery();
+                }
 
-            SaveGamePositions(state.BoardState);
+                SaveGamePositions(state.BoardState, transaction);
+
+                transaction.Commit();
+                //return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SaveGame] dbfail: {ex}");
+                //return false;
+            }
         }
-        private void SaveGamePositions(int[,,] boardState)
+        private void SaveGamePositions(int[,,] boardState, SqliteTransaction transaction)
         {
             using var cmd = _connection.CreateCommand();
+            cmd.Transaction = transaction;
             cmd.CommandText = "UPDATE GamePositions SET Player = @player WHERE x = @x AND y = @y AND z = @z";
+
+            var paramX = cmd.Parameters.AddWithValue("@x", 0);
+            var paramY = cmd.Parameters.AddWithValue("@y", 0);
+            var paramZ = cmd.Parameters.AddWithValue("@z", 0);
+            var paramPlayer = cmd.Parameters.AddWithValue("@player", 0);
+
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
                     for (int z = 0; z < 4; z++)
                     {
-                        cmd.Parameters.Clear();//clear previous parameters before adding new ones
-                        cmd.Parameters.AddWithValue("@x", x);
-                        cmd.Parameters.AddWithValue("@y", y);
-                        cmd.Parameters.AddWithValue("@z", z);
-                        cmd.Parameters.AddWithValue("@player", boardState[x, y, z]);
+                        paramX.Value = x;
+                        paramY.Value = y;
+                        paramZ.Value = z;
+                        paramPlayer.Value = boardState[x, y, z];
                         cmd.ExecuteNonQuery();
                     }
                 }

@@ -17,9 +17,10 @@ namespace Luffarschack.Database
         public GameState LoadGame()
         {
             using var cmd = _connection.CreateCommand();
+            
 
             cmd.CommandText = "SELECT * FROM GameState";
-
+            
             using var reader = cmd.ExecuteReader();
 
             GameState gamestate = new();
@@ -27,7 +28,9 @@ namespace Luffarschack.Database
             if (reader.Read())
             {
                 gamestate.Turn = reader.GetInt32(0);
+                gamestate.Players = Enumerable.Range(1, reader.GetInt32(1)).ToList();
                 gamestate.CurrentPlayer = reader.GetInt32(2);
+                Console.WriteLine("currentplayer: " + gamestate.CurrentPlayer);
                 gamestate.Winner = reader.GetInt32(3);
                 gamestate.BoardState = GetAllGamePositions();
             }
@@ -45,7 +48,7 @@ namespace Luffarschack.Database
 
             using var reader = cmd.ExecuteReader();
             int[,,] boardState = new int[4, 4, 4];
-            if (reader.Read())
+            while (reader.Read())
             {
                 int x = reader.GetInt32(0);
                 int y = reader.GetInt32(1);
@@ -53,11 +56,6 @@ namespace Luffarschack.Database
                 int player = reader.GetInt32(3);
                 boardState[x, y, z] = player;
             }
-            else
-            {
-                Debug.WriteLine("problem was encountered while loading game positions.");
-            }
-
 
             return boardState;
         }
@@ -115,8 +113,9 @@ namespace Luffarschack.Database
                 {
                     //i'm using a transaction here becuse it will group the two commands and ensure that they are both executed together, if one fails the other will not be executed.
                     cmd.Transaction = transaction;
-                    cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @player, Outcome = @winner";
+                    cmd.CommandText = "UPDATE GameState SET Turn = @turn, CurrentPlayer = @player, PlayerCount = @players, Outcome = @winner";
                     cmd.Parameters.AddWithValue("@player", state.CurrentPlayer);
+                    cmd.Parameters.AddWithValue("@players", state.Players.Count);
                     cmd.Parameters.AddWithValue("@winner", state.Winner);
                     cmd.Parameters.AddWithValue("@turn", state.Turn);
                     cmd.ExecuteNonQuery();
@@ -143,19 +142,29 @@ namespace Luffarschack.Database
             var paramY = cmd.Parameters.AddWithValue("@y", 0);
             var paramZ = cmd.Parameters.AddWithValue("@z", 0);
             var paramPlayer = cmd.Parameters.AddWithValue("@player", 0);
-
-            for (int x = 0; x < 4; x++)
+            
+            int x = 0, y = 0, z = 0;
+            while (x<3)
             {
-                for (int y = 0; y < 4; y++)
+                paramX.Value = x;
+                paramY.Value = y;
+                paramZ.Value = z;
+                paramPlayer.Value = boardState[x, y, z];
+                cmd.ExecuteNonQuery();
+
+                if (z < 3)
                 {
-                    for (int z = 0; z < 4; z++)
-                    {
-                        paramX.Value = x;
-                        paramY.Value = y;
-                        paramZ.Value = z;
-                        paramPlayer.Value = boardState[x, y, z];
-                        cmd.ExecuteNonQuery();
-                    }
+                    z++;
+                }
+                else if (y < 3)
+                {
+                    y++;
+                    z = 0;
+                }
+                else
+                {
+                    x++;
+                    y = 0;
                 }
             }
         }

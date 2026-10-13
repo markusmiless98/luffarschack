@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Luffarschack.Core\Luffarschack.Core.csproj" />
     <ProjectReference Include="..\Luffarschack.Orchestration\Luffarschack.Orchestration.csproj" />
   </ItemGroup>

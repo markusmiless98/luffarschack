@@ -4,6 +4,8 @@ using Luffarschack.Orchestration.Interface;
 
 using System.Text.Json;
 using Luffarschack.Core.Services;
+using Luffarschack.Core.Interface;
+using System.Diagnostics;
 
 namespace Luffarschack.Orchestration;
 
@@ -11,14 +13,34 @@ public class GameService : IGameService
 {
     public GameState GameState { get; set; } 
     public VictoryStatusValidator VictoryValidator = new VictoryStatusValidator();//this should either be made into a static class or sent in via DI but im putting it here for now to ensure that everything works
+
+    private IGameRepository GameRepo { get; set; }
+
+    public GameService(IGameRepository repo)
+    {
+        if (repo != null)
+        {
+            GameRepo = repo;
+            GameState = GameRepo.LoadGame();
+        }
+        else
+        {
+            Init();
+        }
+    }
     public GameService()
+    {
+        Init();
+    }
+
+    private void Init()
     {
         //temporaray initilization of gamestate
         GameState = new GameState()
         {
-            BoardState = new int[4,4,4],
-            CurrentPlayer = 1, 
-            Players = new List<int> {1,2},
+            BoardState = new int[4, 4, 4],
+            CurrentPlayer = 1,
+            Players = new List<int> { 1, 2 },
             Turn = 0,
             Winner = 0,
         };
@@ -43,6 +65,7 @@ public class GameService : IGameService
                 GameState.Turn++;
                 GameState.Winner = VictoryValidator.CheckGameOutcome(GameState, move);
                 GoToNextPlayer();
+                SaveGame();
                 return true;
             }
             catch
@@ -59,6 +82,10 @@ public class GameService : IGameService
     private void PlaceMove(MoveRequest move)
     {
         GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
+        if (GameRepo != null)
+        {
+            GameRepo.MakeMove(move.x,move.y,move.z,GameState.CurrentPlayer,GameState);
+        }
     }
 
     private void GoToNextPlayer()
@@ -70,7 +97,10 @@ public class GameService : IGameService
 
     public void SaveGame()
     {
-        throw new NotImplementedException();
+        if (GameRepo != null)
+        {
+            GameRepo.SaveGame(GameState);
+        }
         //databasecall via interface
     }
 
@@ -79,6 +109,10 @@ public class GameService : IGameService
         if (players < 2 || players > 4) return false;
         
         GameState = GameBuilder.NewGame(players);
+        if (GameRepo != null)
+        {
+            GameRepo.StartNewGame(players);
+        }
         return true;
     }
 }

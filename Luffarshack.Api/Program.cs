@@ -25,9 +25,9 @@ builder.Services.AddControllers();
 
 var dbPath = Path.Combine(builder.Environment.ContentRootPath, "Luffarschack.db");
 
-builder.Services.AddSingleton<IGameService, GameService>();
 builder.Services.AddSingleton(new SqliteDatabase(dbPath));
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 

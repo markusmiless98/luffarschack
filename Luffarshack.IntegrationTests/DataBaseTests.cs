@@ -1,5 +1,7 @@
 ﻿using Luffarschack.Core;
 using Luffarschack.Core.Interface;
+using Luffarschack.Core.Services;
+using Luffarschack.Database;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,13 @@ using System.Text;
 
 public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly IGameRepository _repos;
-    
+    private readonly IGameRepository _repos = new GameRepository(new SqliteDatabase("Luffarschack.db"));
+
     [Fact]
     public async Task MakeMoveLoadGame_WithRepository_SuccessfulLoad()
     {
         // Assemble
-        GameState gameState = new GameState();
+        GameState gameState = GameBuilder.NewGame(2);
         _repos.MakeMove(1, 1, 1, 1, gameState);
 
         // Act
@@ -29,12 +31,10 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task SaveAndLoadGame_WithRepository_SuccessfulLoad()
     {
         // Assemble
-        GameState gameState = new GameState();
+        GameState gameState = GameBuilder.NewGame(2);
         gameState.BoardState[1, 1, 1] = 1;
         gameState.Turn = 1;
         gameState.CurrentPlayer = 2;
-        gameState.Players.Add(1);
-        gameState.Players.Add(2);
         // Act
         _repos.SaveGame(gameState);
         GameState fake = _repos.LoadGame(); // Maybe make into string later

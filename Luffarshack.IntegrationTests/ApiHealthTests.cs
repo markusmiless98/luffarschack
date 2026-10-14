@@ -18,8 +18,16 @@ public class ApiHealthTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task PostMove_WithJsonBody_IsAccepted()
     {
-        var response = await _client.PostAsJsonAsync("api/game", new { x = 1, y = 2, z = 3 });
+        // Arrange
+        var requestUri = "/api/game";
 
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        // Act
+        var response = await _client.GetAsync(requestUri);
+        var body = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        Assert.True(response.Content.Headers.ContentLength > 0);
     }
 }

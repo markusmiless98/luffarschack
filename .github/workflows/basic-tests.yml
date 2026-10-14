@@ -25,10 +25,10 @@ jobs:
         dotnet-version: '10.0.x'
     - name: build projekt
       run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: run code api
+      run: dotnet run --project Luffarshack.Api/Luffarshack.Api.csproj 
     - name: test projekt
       run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }}         
-    - name: run code
-      run: dotnet run --project Luffarshack.UnitTests/Luffarshack.UnitTests.csproj 
    
 
   

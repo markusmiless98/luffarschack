@@ -1,9 +1,12 @@
 //refactor for building form when button clicked
+function popUpsDisabled() {
+    return document.getElementById("skip_all_popup")?.value === "Yes";
+}
 
 const global_pop_ups_disabled = document.getElementById("skip_all_popup");
 
 export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel) {
-	if (global_pop_ups_disabled.value == "Yes")
+	if (popUpsDisabled())
 	{
 		onConfirm();
 		return;
@@ -49,33 +52,44 @@ export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCa
     dialog.showModal();
 }
 
-//example usage
-export function test(){
-const test = document.createElement("div");
-const button = document.createElement("button");
-const button2 = document.createElement("button");
 
-button.textContent = "YesNo"
-button2.textContent = "YesOnly"
+export function BuildManyButtonPopUp(text, buttons) {
+    if (!Array.isArray(buttons) || buttons.length === 0) {
+        throw new Error(
+            'BuildPopUp expects: BuildPopUp("message", [{ text: "OK", onClick: () => {} }])'
+        );
+    }
 
-button.addEventListener("click",
-    () => BuildPopUp(
-       
-        "message?",
-        "yes",
-        () => console.log("yes works"), //put what you want to run when user presses confirmation
-        "no",
-        () => console.log("no works"))); //put what you want to run when user presses cancel
+    if (popUpsDisabled()) {
+        buttons[0].onClick?.(); // the method of the first button will run if nothing is selected?
+        return;
+    }
 
+    const dialog = document.createElement("dialog");
+    const message = document.createElement("p");
+    const form = document.createElement("form");
 
-button2.addEventListener("click",
-    () => BuildPopUp(
-        "message?",
-        "yes",
-        () => console.log("yes works")));//you can exlude the cancel value and you wont have that button appear
+    message.textContent = text;
+    form.method = "dialog"; 
 
-test.append(button, button2)
-document.body.appendChild(test);
+    for (let i = 0; i < buttons.length; i++) {
+        const button = document.createElement("button");
+        button.textContent = buttons[i].text;
+        button.addEventListener("click", buttons[i].onClick);
+        button.value = buttons[i].text;
+        form.append(button);
+    }
+
+    dialog.append(message, form);
+
+    dialog.addEventListener("close", () => {
+        if(dialog.returnValue !== "")  console.log(`${dialog.returnValue} button clicked`);
+        else console.log("popup closed");
+        dialog.remove();
+    });
+
+    document.body.appendChild(dialog);
+    dialog.showModal();
 }
 
 

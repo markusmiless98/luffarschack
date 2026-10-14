@@ -104,7 +104,7 @@ async function getGameData() {// i want to put this in api json file
         */
 }
 
-async function refreshBoard() {// update all view cells from game data from api
+export async function refreshBoard() {// update all view cells from game data from api
     const gameData = await getGameData()
     console.log("gamedata after new game", gameData)
     const board = gameData.boardState;

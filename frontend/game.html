@@ -14,45 +14,44 @@
 <body class="left"> <!-- i made css class for left center and right -->
 
 
-  <div Id="layer_toggles" class="controls"></div>
+	<div Id="layer_toggles" class="controls"></div>
 
-  <div class="svg-container">
-    <svg class="svg" xmlns="http://www.w3.org/2000/svg"></svg>
-  </div>
+	<div class="svg-container">
+		<svg class="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+	</div>
 
 
 
-  <div class="flex-col">
-    <label class="slider">
-      Layer gap
-      <input type="range" id="gapSlider" min="0" max="80" value="40">
-      <output id="gapValue">40</output>
-    </label>
-    <!-- <div class="controls">
-      
-    </div>  other buttons? -->
-    <div id="ui_side" class="side-options">
-					<div class="option_title">Options:</div>
-					<form id="option_side">
-						<div>
-							Disable ALL Popups?
-							<select id="skip_all_popup">
-								<option>No</option>
-								<option>Yes</option>
-							</select>
-						</div>
-					</form>
-					<div>
-						Restart Game
-					</div>
-					<div id="reset_buttons"></div>
-				</div>
-  </div>
+	<div class="flex-col">
+		<label class="slider">
+			Layer gap
+			<input type="range" id="gapSlider" min="0" max="80" value="40">
+			<output id="gapValue">40</output>
+		</label>
+		<!-- <div class="controls"> -->
+			
+		<div id="options" class="side-options">
+			<div class="option_title">Options:</div>
+			<form id="options_form">
+				<div id="disable_all_container"></div>
+				<div id="disable_placement_container"></div>
+			</form>
+			<div id="reset_container"></div>
+		</div>
+
+<!--
+		<div id="ui_side" class="side-options">
+			<div class="option_title">Options:</div>
+			<form id="option_side">
+				<div id="reset_buttons"></div>
+		</div>
+	</div>
+-->
+	</div>
 </body>
 
-<script type="module" src="./script/buildUI.js"></script> 
+<script type="module" src="./script/buildUI.js"></script>
 <script type="module" src="./script/buildGame.js"></script>
-<script type="module" src="./script/confirmWindow.js"></script>
 
 
 </html>

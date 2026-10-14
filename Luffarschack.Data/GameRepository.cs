@@ -24,6 +24,7 @@ namespace Luffarschack.Database
             using var reader = cmd.ExecuteReader();
 
             GameState gamestate = new();
+            gamestate.BoardState = new int[4, 4, 4];
 
             if (reader.Read())
             {

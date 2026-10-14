@@ -14,6 +14,8 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
     
     private readonly IGameRepository _repos = new GameRepository(new SqliteDatabase("Luffarschack.db"));
 
+    private IGameBuilder builder = new GameBuilder();
+
     public DataBaseTests()
     {
         var dbPath = Path.Combine(AppContext.BaseDirectory, "Luffarschack.db");
@@ -24,7 +26,7 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task MakeMoveLoadGame_WithRepository_SuccessfulLoad()
     {
         // Assemble
-        GameState gameState = GameBuilder.NewGame(2);
+        GameState gameState = builder.NewGame(2);
         _repos.MakeMove(1, 1, 1, 1, gameState);
 
         // Act
@@ -38,7 +40,7 @@ public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task SaveAndLoadGame_WithRepository_SuccessfulLoad()
     {
         // Assemble
-        GameState gameState = GameBuilder.NewGame(2);
+        GameState gameState = builder.NewGame(2);
         gameState.BoardState[1, 1, 1] = 1;
         gameState.Turn = 1;
         gameState.CurrentPlayer = 2;

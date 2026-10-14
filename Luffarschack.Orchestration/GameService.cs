@@ -16,13 +16,15 @@ public class GameService : IGameService
 
     private IGameRepository _gameRepo { get; set; }
     private IMoveValidator _moveValidator { get; set; }
+    private IGameBuilder _gameBuilder { get; set; }
 
-    public GameService(IGameRepository repo, IMoveValidator moveValidator)
+    public GameService(IGameRepository repo, IMoveValidator moveValidator, IGameBuilder gameBuilder)
     {
-        if (repo != null)
+        if (repo != null && moveValidator != null && gameBuilder != null)
         {
             _gameRepo = repo;
             _moveValidator = moveValidator;
+            _gameBuilder = gameBuilder;
             GameState = _gameRepo.LoadGame();
         }
         else
@@ -47,6 +49,7 @@ public class GameService : IGameService
             Winner = 0,
         };
         _moveValidator = new MoveValidator();
+        _gameBuilder = new GameBuilder();
     }
 
     public GameStateDTO GetGameStateDTO()
@@ -111,7 +114,7 @@ public class GameService : IGameService
     {
         if (players < 2 || players > 4) return false;
         
-        GameState = GameBuilder.NewGame(players);
+        GameState = _gameBuilder.NewGame(players);
         if (_gameRepo != null)
         {
             _gameRepo.StartNewGame(players);

@@ -1,10 +1,9 @@
 import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
-import { BuildPopUp } from "./confirmWindow.js";
+import { BuildPopUp } from "./popup.js";
 import { buildGameView } from "./gameViewBuilder.js"
-//import { applyPlayerColor, setupPlayers } from "./playerColor.js"
+import { applyPlayerColor, resetColor } from "./playerColorSetUp.js"
 
 async function buildGame() {
-
     const view = buildGameView(async (x, y, z, cell) => {
         let pop_up_check = document.getElementById("skip_all_popup");
         if (pop_up_check.value == "No") {
@@ -20,6 +19,9 @@ async function buildGame() {
 
                     if (ok) {
                         const gamedata = await getGameData()
+                        if (gamedata.winner != 0) {
+                            winPopUp(gamedata.winner)
+                        }
                         const cellValueFromApi = gamedata.boardState[x][y][z]
                         console.log(`cell value from api: ${cellValueFromApi} x:${x} y:${y} z:${z}`)
 
@@ -28,8 +30,9 @@ async function buildGame() {
 
                         console.log(`cell value in view: ${viewCell.dataset.value} x:${x} y:${y} z:${z}`)
                         console.log(`stored cell pos: ${viewCell.dataset.pos} x:${x} y:${y} z:${z}`)
-
-                        viewCell.classList.add("selected", "locked");
+                        
+                        const playerNum = gamedata.currentPlayer
+                        updateCell(viewCell, playerNum)
                     }
 
                 },
@@ -38,9 +41,30 @@ async function buildGame() {
             );
         }
         else {
-            if (TryMakeMove(x, y, z)) cell.classList.add('selected', "locked");
+            const ok = await TryMakeMove(x, y, z);
+            console.log("api response:", ok);
+            console.log("x/y/z sent to api", x, y, z)
+
+            if (ok) {
+                const gamedata = await getGameData()
+                if (gamedata.winner != 0) {
+                    winPopUp(gamedata.winner)
+                }
+                const cellValueFromApi = gamedata.boardState[x][y][z]
+                console.log(`position from api: ${cellValueFromApi} x:${x} y:${y} z:${z}`)
+
+                const viewCell = view.getCell(x, y, z)
+                viewCell.dataset.value = cellValueFromApi
+
+                console.log(`position in view: ${viewCell.dataset.value} x:${x} y:${y} z:${z}`)
+                console.log(`stored cell pos: ${viewCell.dataset.pos} x:${x} y:${y} z:${z}`) //maybe get rid of this
+
+                const playerNum = gamedata.currentPlayer
+                console.log("this is player", playerNum)
+                updateCell(viewCell, playerNum)
+            }
         }
-    })
+    });
 }
 
 buildGame();
@@ -67,66 +91,80 @@ async function getGameData() {// i want to put this in api json file
     return game_data;
     /*
         game_data:{
-          "BoardState": [
+          "boardState": [
             0[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]3,
             1[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]2,
             2[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]1,
             3[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]0
           ],
-          "Winner": 0,
-          "Turn": 0,
-          "CurrentPlayer": 0
+          "winner": 0,
+          "turn": 0,
+          "currentPlayer": 0
         }
         */
 }
 
-function updateAllViewCells(view, gameData) {// update all view cells from game data from api
+async function refreshBoard() {// update all view cells from game data from api
+    const gameData = await getGameData()
+    console.log("gamedata after new game", gameData)
     const board = gameData.boardState;
 
-    const frontenddata = [] //want to see if cells get same value as data from api in backend
-
     for (let z = 0; z < board.length; z++) {
-        const layer = []
         for (let y = 0; y < board[z].length; y++) {
-            const row = []
             for (let x = 0; x < board[z][y].length; x++) {
-                updateCell(view, x, y, z, board[x][y][z]);
-                row.push(view.getCell(x, y, z).dataset)
+                let cell = document.getElementById(`cube ${x}${y}${z}`)
+                if (board[x][y][z] == 0) {
+                    resetColor(cell)
+                }
+                else {
+                    updateCell(cell, board[x][y][z]);
+                }
             }
-            layer.push(row)
         }
-        frontenddata.push(layer)
     }
-    console.log(board)
-    console.log(frontenddata);
 }
 
-function updateCell(view, x, y, z, playerValue) {
-    const cell = view.getCell(x, y, z)//get the cell from the view maybe send in instead
-
+function updateCell(cell, playerValue) {
     if (!cell) {
         console.log("cell to update had no value")
         return;
     }
+    if (playerValue == Number) {
+        console.log("no player number", playerValue);
+        return;
+    }
 
     if (playerValue != 0) {
-        cell.dataset.value = playerValue
-        cell.classList.add("selected", "locked"); //set player color here
+        console.log(playerValue)
+        applyPlayerColor(cell, playerValue) //set player color here
+        cell.classList.add("locked");
     }
     else {
-        console.log("cell is not selected no cell data changed")
+        resetColor(cell)
     }
 }
 
-function winPopUp(player) {
+async function winPopUp(winner) {
+    let text = "Player " + winner.toString() + " won!\nWanna start new game?";
 
-    let win_text = "Player " + _board.winner.toString() + `${player.color} player won!\nWanna start new game?`;
-    if (_board.winner == "-1") {
-        win_text = "Draw!\nWanna start new game?"
+    if (winner > 0) {
+        BuildPopUp(text, "Yes", async () => {
+            await NewGameRequest(2)//need to get how many players played last game
+            await refreshBoard()
+        }, "No", () => {
+            window.location.href = 'index.html';
+            console.log("Didn't start new game")
+        });
     }
-    let _popup = BuildPopUp(win_text, "Yes", () => {
-        NewGameRequest(2)
-        updateAllViewCells(view, gameData);
-    }, "No", () => console.log("Didn't start new game"));// this needs to go back to main menu
+    if (winner === -1) {
+        text = "It's a Draw!\nWant to start new game?"
+        BuildPopUp(text, "Yes", async () => {
+            await NewGameRequest(2)
+            await refreshBoard();
+        }, "No", () => {
+            window.location.href = 'index.html';
+            console.log("Didn't start new game")
+        });
+    }
 
 }

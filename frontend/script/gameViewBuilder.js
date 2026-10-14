@@ -66,6 +66,7 @@ function createLayers(
                 //prepare cell
                 const cell = document.createElementNS(ns, 'g');
                 cell.setAttribute('class', 'cell');
+                cell.id = `cube ${x}${y}${z}` 
                 cell.style.transform = `translate(${offsetX}px, ${offsetY}px)`;//translate = move element by offsetX pixels right and offsetY pixels down
                 cell.innerHTML = cubinator(cubeSize) //svg cube contents
 

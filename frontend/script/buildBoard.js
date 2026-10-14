@@ -1,5 +1,5 @@
 import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
-import { BuildPopUp } from "./confirmWindow.js";
+import { BuildPopUp } from "./popup.js";
 import { buildGameView } from "./gameViewBuilder.js"
 
 const board = document.getElementById("board");

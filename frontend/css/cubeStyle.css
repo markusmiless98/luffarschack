@@ -118,45 +118,54 @@ body.right .controls{
 .cell.locked { pointer-events: none;}
 
 .hit {fill: transparent;}
-.topFace   { fill: #5F9EA0; }
-.leftFace  { fill: #4B7F81; }
-.rightFace { fill: #3A6264; }
+.topFace   { fill: #9cbcc0; }
+.leftFace  { fill: #6d8d92; }
+.rightFace { fill: #425b5f; }
 
+/*
 
-.selected .topFace {fill: #C9825B;}
-.selected .leftFace {fill: #AD6B4B;}
-.selected .rightFace {fill: #90563F;}
+.topFace   { fill: #b8b4a8; }
+.leftFace  { fill: #868278; }
+.rightFace { fill: #55524a; }
+
+.topFace   { fill: #9cbcc0; }
+.leftFace  { fill: #6d8d92; }
+.rightFace { fill: #425b5f; }
+*/
 
 /* === player colors === */
-/* i added quite a few colors as i am unsure what colors are suitable */
-.cube_color_coral .topFace   { fill: #F28B82; }
-.cube_color_coral .leftFace  { fill: #D96C66; }
-.cube_color_coral .rightFace { fill: #B85250; }
+.cube_color_red .topFace   { fill: #e32a4c; }
+.cube_color_red .leftFace  { fill: #a51c35; }
+.cube_color_red .rightFace { fill: #6b1123; }
 
-.cube_color_green .topFace   { fill: #7FD1AE; }
-.cube_color_green .leftFace  { fill: #5FB28F; }
-.cube_color_green .rightFace { fill: #45926F; }
+.cube_color_orange .topFace   { fill: #ffcb7a; }
+.cube_color_orange .leftFace  { fill: #eea64b; }
+.cube_color_orange .rightFace { fill: #c17747; }
 
-.cube_color_amber .topFace   { fill: #F6C65B; }
-.cube_color_amber .leftFace  { fill: #D9A63F; }
-.cube_color_amber .rightFace { fill: #B88529; }
+.cube_color_green .topFace   { fill: #2ee59d; }
+.cube_color_green .leftFace  { fill: #19b47c; }
+.cube_color_green .rightFace { fill: #1c6b42; }
 
-.cube_color_orange .topFace   { fill: #FF9A3C; }
-.cube_color_orange .leftFace  { fill: #E67A1F; }
-.cube_color_orange .rightFace { fill: #BF5E12; }
+.cube_color_blue .topFace   { fill: #4d9fff; }
+.cube_color_blue .leftFace  { fill: #2d6fd4; }
+.cube_color_blue .rightFace { fill: #1e4993; }
+/*
+.cube_color_red .topFace   { fill:#e32a4c }
+.cube_color_red .leftFace  { fill: #96182f }
+.cube_color_red .rightFace { fill: #4d0b19 }
 
-.cube_color_purple .topFace   { fill: #A78BFA; }
-.cube_color_purple .leftFace  { fill: #8668DB; }
-.cube_color_purple .rightFace { fill: #6A4FB8; }
+.cube_color_orange .topFace   { fill: #ffcb7a; }
+.cube_color_orange .leftFace  { fill: #ea9d3f; }
+.cube_color_orange .rightFace { fill: #b2623a; }
 
-.cube_color_blue .topFace   { fill: #4DA3E0; }
-.cube_color_blue .leftFace  { fill: #2F86C4; }
-.cube_color_blue .rightFace { fill: #1F669C; }
+.cube_color_green .topFace   { fill: #2ee59d; }
+.cube_color_green .leftFace  { fill: #14a874; }
+.cube_color_green .rightFace { fill: #174d2b; }
 
-.cube_color_pink .topFace   { fill: #CC79A7; }
-.cube_color_pink .leftFace  { fill: #AA5F89; }
-.cube_color_pink .rightFace { fill: #884A6C; }
-
+.cube_color_blue .topFace   { fill: #4d9fff}
+.cube_color_blue .leftFace  { fill: #2563c9}
+.cube_color_blue .rightFace { fill: #123478}
+*/
 /* === slider === */
 .slider {
     display: flex;

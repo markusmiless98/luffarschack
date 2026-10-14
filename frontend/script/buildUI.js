@@ -1,6 +1,6 @@
 import { NewGameRequest } from "./apiServiceScript.js";
 //import { CheckUpdateBoard } from "./buildBoard.js";
-import { BuildPopUp } from "./confirmWindow.js";
+import { BuildPopUp } from "./popup.js";
 
 const ui_layout = document.getElementById("ui_side");
 const reset_layout = document.getElementById("reset_buttons");

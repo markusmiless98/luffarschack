@@ -14,14 +14,16 @@ public class GameService : IGameService
     public GameState GameState { get; set; } 
     public VictoryStatusValidator VictoryValidator = new VictoryStatusValidator();//this should either be made into a static class or sent in via DI but im putting it here for now to ensure that everything works
 
-    private IGameRepository GameRepo { get; set; }
+    private IGameRepository _gameRepo { get; set; }
+    private IMoveValidator _moveValidator { get; set; }
 
-    public GameService(IGameRepository repo)
+    public GameService(IGameRepository repo, IMoveValidator moveValidator)
     {
         if (repo != null)
         {
-            GameRepo = repo;
-            GameState = GameRepo.LoadGame();
+            _gameRepo = repo;
+            _moveValidator = moveValidator;
+            GameState = _gameRepo.LoadGame();
         }
         else
         {
@@ -57,7 +59,7 @@ public class GameService : IGameService
         if (GameState == null)
             return false;
         
-        if (MoveValidator.IsValidMove(GameState.BoardState, move.x, move.y, move.z))
+        if (_moveValidator.IsValidMove(GameState.BoardState, move.x, move.y, move.z))
         {
             try //this try catch is in case i've missed something in the validation, it should not crash the program
             {
@@ -82,9 +84,9 @@ public class GameService : IGameService
     private void PlaceMove(MoveRequest move)
     {
         GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
-        if (GameRepo != null)
+        if (_gameRepo != null)
         {
-            GameRepo.MakeMove(move.x,move.y,move.z,GameState.CurrentPlayer,GameState);
+            _gameRepo.MakeMove(move.x,move.y,move.z,GameState.CurrentPlayer,GameState);
         }
     }
 
@@ -97,9 +99,9 @@ public class GameService : IGameService
 
     public void SaveGame()
     {
-        if (GameRepo != null)
+        if (_gameRepo != null)
         {
-            GameRepo.SaveGame(GameState);
+            _gameRepo.SaveGame(GameState);
         }
         //databasecall via interface
     }
@@ -109,9 +111,9 @@ public class GameService : IGameService
         if (players < 2 || players > 4) return false;
         
         GameState = GameBuilder.NewGame(players);
-        if (GameRepo != null)
+        if (_gameRepo != null)
         {
-            GameRepo.StartNewGame(players);
+            _gameRepo.StartNewGame(players);
         }
         return true;
     }

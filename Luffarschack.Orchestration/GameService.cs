@@ -1,27 +1,32 @@
-using Luffarschack.Core;
 using Luffarschack.Orchestration.dto;
 using Luffarschack.Orchestration.Interface;
 
 using System.Text.Json;
 using Luffarschack.Core.Services;
-using Luffarschack.Core.Interface;
 using System.Diagnostics;
+using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.ValueObjects;
+using Luffarschack.Orchestration.Helpers;
 
 namespace Luffarschack.Orchestration;
 
 public class GameService : IGameService
 {
     public GameState GameState { get; set; } 
-    public VictoryStatusValidator VictoryValidator = new VictoryStatusValidator();//this should either be made into a static class or sent in via DI but im putting it here for now to ensure that everything works
+    private IGameRepository _gameRepo { get; set; }
+    private IMoveValidator _moveValidator { get; set; }
+    private IVictoryStatusValidator _victoryValidator { get; set; }
+    private IGameBuilder _gameBuilder { get; set; }
 
-    private IGameRepository GameRepo { get; set; }
-
-    public GameService(IGameRepository repo)
+    public GameService(IGameRepository repo, IMoveValidator moveValidator, IGameBuilder gameBuilder, IVictoryStatusValidator victoryValidator)
     {
-        if (repo != null)
+        if (repo != null && moveValidator != null && gameBuilder != null)
         {
-            GameRepo = repo;
-            GameState = GameRepo.LoadGame();
+            _gameRepo = repo;
+            _moveValidator = moveValidator;
+            _victoryValidator = victoryValidator;
+            _gameBuilder = gameBuilder;
+            GameState = _gameRepo.LoadGame();
         }
         else
         {
@@ -35,7 +40,7 @@ public class GameService : IGameService
 
     private void Init()
     {
-        //temporaray initilization of gamestate
+        //initiation of gamestate and validators for tests/fallback if somethething goes wrong?
         GameState = new GameState()
         {
             BoardState = new int[4, 4, 4],
@@ -44,6 +49,9 @@ public class GameService : IGameService
             Turn = 0,
             Winner = 0,
         };
+        _moveValidator = new MoveValidator();
+        _victoryValidator = new VictoryStatusValidator();
+        _gameBuilder = new GameBuilder();
     }
 
     public GameStateDTO GetGameStateDTO()
@@ -57,13 +65,13 @@ public class GameService : IGameService
         if (GameState == null)
             return false;
         
-        if (MoveValidator.IsValidMove(GameState.BoardState, move.x, move.y, move.z))
+        if (_moveValidator.IsValidMove(GameState.BoardState, move.x, move.y, move.z))
         {
             try //this try catch is in case i've missed something in the validation, it should not crash the program
             {
                 PlaceMove(move);
                 GameState.Turn++;
-                GameState.Winner = VictoryValidator.CheckGameOutcome(GameState, move);
+                GameState.Winner = _victoryValidator.CheckGameOutcome(GameState, move);
                 GoToNextPlayer();
                 SaveGame();
                 return true;
@@ -82,9 +90,9 @@ public class GameService : IGameService
     private void PlaceMove(MoveRequest move)
     {
         GameState.BoardState[move.x, move.y, move.z] = GameState.CurrentPlayer;
-        if (GameRepo != null)
+        if (_gameRepo != null)
         {
-            GameRepo.MakeMove(move.x,move.y,move.z,GameState.CurrentPlayer,GameState);
+            _gameRepo.MakeMove(move.x,move.y,move.z,GameState.CurrentPlayer,GameState);
         }
     }
 
@@ -97,9 +105,9 @@ public class GameService : IGameService
 
     public void SaveGame()
     {
-        if (GameRepo != null)
+        if (_gameRepo != null)
         {
-            GameRepo.SaveGame(GameState);
+            _gameRepo.SaveGame(GameState);
         }
         //databasecall via interface
     }
@@ -108,10 +116,10 @@ public class GameService : IGameService
     {
         if (players < 2 || players > 4) return false;
         
-        GameState = GameBuilder.NewGame(players);
-        if (GameRepo != null)
+        GameState = _gameBuilder.NewGame(players);
+        if (_gameRepo != null)
         {
-            GameRepo.StartNewGame(players);
+            _gameRepo.StartNewGame(players);
         }
         return true;
     }

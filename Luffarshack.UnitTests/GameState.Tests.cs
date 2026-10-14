@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Luffarschack.Orchestration;
 using Xunit;
+using Luffarschack.Core.ValueObjects;
 
 namespace Luffarshack.UnitTests
 {

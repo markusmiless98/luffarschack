@@ -1,4 +1,5 @@
-using Luffarschack.Core.Interface;
+using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.Services;
 using Luffarschack.Database;
 using Luffarschack.Orchestration;
 using Luffarschack.Orchestration.Interface;
@@ -28,6 +29,9 @@ var dbPath = Path.Combine(builder.Environment.ContentRootPath, "Luffarschack.db"
 builder.Services.AddSingleton(new SqliteDatabase(dbPath));
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IMoveValidator, MoveValidator>();
+builder.Services.AddScoped<IVictoryStatusValidator, VictoryStatusValidator>();
+builder.Services.AddScoped<IGameBuilder, GameBuilder>();
 
 var app = builder.Build();
 

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Luffarschack.Core.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Luffarschack.Core.Interface
+namespace Luffarschack.Core.Interfaces
 {
     public interface IGameRepository
     {

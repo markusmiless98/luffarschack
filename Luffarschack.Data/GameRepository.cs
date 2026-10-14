@@ -1,5 +1,5 @@
-﻿using Luffarschack.Core;
-using Luffarschack.Core.Interface;
+﻿using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.ValueObjects;
 using Microsoft.Data.Sqlite;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -24,6 +24,7 @@ namespace Luffarschack.Database
             using var reader = cmd.ExecuteReader();
 
             GameState gamestate = new();
+            gamestate.BoardState = new int[4, 4, 4];
 
             if (reader.Read())
             {

@@ -1,4 +1,5 @@
 ﻿using Luffarschack.Core;
+using Luffarschack.Core.Interfaces;
 using Luffarschack.Core.Services;
 using Luffarschack.Orchestration;
 using System;
@@ -10,13 +11,14 @@ namespace Luffarshack.UnitTests
 {
     public class VictoryStatusValidatorTests
     {
+        IVictoryStatusValidator validator = new VictoryStatusValidator();
+
         [Theory]
         [InlineData(1)]
         [InlineData(2)] 
         public void VictoryStatusValidator_ValidAnyPlayerVictory_ReturnsPlayerNumber(int player)
         {
             //arrange
-            var validator = new VictoryStatusValidator();
             var board = new int[4, 4, 4];
             board[0,0,0] = player;
             board[1,0,0] = player;
@@ -39,7 +41,6 @@ namespace Luffarshack.UnitTests
         public void VictoryStatusValidator_FourInARowAcrossCube_ReturnsPlayerWinningNumber(int player)
         {
             //arrange
-            var validator = new VictoryStatusValidator();
             var board = new int[4, 4, 4];
             board[0, 0, 0] = player;
             board[1, 1, 1] = player;

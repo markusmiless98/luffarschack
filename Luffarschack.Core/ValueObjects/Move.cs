@@ -1,4 +1,4 @@
-namespace Luffarschack.Core;
+namespace Luffarschack.Core.ValueObjects;
 
 public class Move //MoveRequest kommer från frontend
 {

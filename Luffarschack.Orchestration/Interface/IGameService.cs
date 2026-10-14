@@ -1,8 +1,8 @@
-﻿using Luffarschack.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Luffarschack.Orchestration.dto;
+using Luffarschack.Core.ValueObjects;
 
 namespace Luffarschack.Orchestration.Interface
 {

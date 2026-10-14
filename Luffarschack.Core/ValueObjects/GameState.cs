@@ -1,7 +1,7 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
 
-namespace Luffarschack.Core;
+namespace Luffarschack.Core.ValueObjects;
 
 public class GameState
 {

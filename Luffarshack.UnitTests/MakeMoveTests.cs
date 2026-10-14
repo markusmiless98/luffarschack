@@ -1,4 +1,5 @@
 using Luffarschack.Core;
+using Luffarschack.Core.ValueObjects;
 using Luffarschack.Orchestration;
 using Xunit;
 

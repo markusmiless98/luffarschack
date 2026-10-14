@@ -1,7 +1,9 @@
-﻿
+﻿using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.ValueObjects;
+
 namespace Luffarschack.Core.Services;
 
-public class VictoryStatusValidator
+public class VictoryStatusValidator : IVictoryStatusValidator
 {
     const int maxAmountOfTurns = 4 * 4;
     public int CheckGameOutcome(GameState gameState, MoveRequest move)
@@ -15,7 +17,7 @@ public class VictoryStatusValidator
         return CheckGameOutcome(gameState.BoardState, gameState.CurrentPlayer, gameState.Turn, move.x, move.y, move.z);
     }
 
-    public int CheckGameOutcome(int[,,] board, int player, int turn, int x, int y, int z) 
+    public int CheckGameOutcome(int[,,] board, int player, int turn, int x, int y, int z)
     {
         if (CheckForDraw(turn)) return -1;
 
@@ -28,13 +30,13 @@ public class VictoryStatusValidator
 
     private static int CheckForWinner(int[,,] board, int player, int x, int y, int z)
     {
-        
+
         // Check X directional
         int x_dir_value = 0;
         int y_dir_value = 0;
         int z_dir_value = 0;
 
-        for(int i = 0; i < 4; i++) 
+        for (int i = 0; i < 4; i++)
         {
             if (board[(x + i) % 4, y, z] == player)
             {
@@ -70,7 +72,7 @@ public class VictoryStatusValidator
         if (board[3, 0, 0] == player && board[2, 1, 1] == player && board[1, 2, 2] == player && board[0, 3, 3] == player) return player;
         if (board[0, 3, 0] == player && board[1, 2, 1] == player && board[2, 1, 2] == player && board[3, 0, 3] == player) return player;
         if (board[0, 0, 3] == player && board[1, 1, 2] == player && board[2, 2, 1] == player && board[3, 3, 0] == player) return player;
-        
+
         return 0;
     }
 }

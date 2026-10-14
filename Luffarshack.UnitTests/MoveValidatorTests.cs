@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using Luffarschack.Core;
 using Luffarschack.Core.Services;
+using Luffarschack.Core.ValueObjects;
+using Luffarschack.Core.Interfaces;
 
 namespace Luffarshack.UnitTests
 {
@@ -39,9 +40,10 @@ namespace Luffarshack.UnitTests
         {
             //arrange
             var board = new int[4,4,4];
+            IMoveValidator validator = new MoveValidator();
 
             //act
-            var result = MoveValidator.IsValidMove(board, 0, 0, 0);
+            var result = validator.IsValidMove(board, 0, 0, 0);
 
             //assert
             Assert.True(result);  
@@ -51,11 +53,12 @@ namespace Luffarshack.UnitTests
         public void IsValidMove_OccupiedCell_ReturnsFalse()
         {
             //arrange
+            IMoveValidator validator = new MoveValidator();
             var board = new int[4, 4, 4];
             board[0, 0, 0] = 1;
             
             //act
-            var result = MoveValidator.IsValidMove(board, 0, 0, 0);
+            var result = validator.IsValidMove(board, 0, 0, 0);
 
             //assert
             Assert.False(result);  
@@ -67,10 +70,11 @@ namespace Luffarshack.UnitTests
         public void IsMove_OutOfBounds_ReturnsFalse( int x, int y, int z)
         {
             //arrange
+            IMoveValidator validator = new MoveValidator();
             var board = new int[4, 4, 4];
             
             //act
-            var result = MoveValidator.IsValidMove(board, x, y, z);
+            var result = validator.IsValidMove(board, x, y, z);
 
             //assert
             Assert.False(result);  

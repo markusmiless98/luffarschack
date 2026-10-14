@@ -1,4 +1,4 @@
-using Luffarschack.Core;
+using Luffarschack.Core.ValueObjects;
 using Luffarschack.Orchestration.dto;
 using Luffarschack.Orchestration.Interface;
 using Microsoft.AspNetCore.Mvc;

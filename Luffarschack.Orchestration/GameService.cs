@@ -37,7 +37,7 @@ public class GameService : IGameService
 
     private void Init()
     {
-        //temporaray initilization of gamestate
+        //initiation of gamestate and validator for tests/fallback if somethething goes wrong
         GameState = new GameState()
         {
             BoardState = new int[4, 4, 4],
@@ -46,6 +46,7 @@ public class GameService : IGameService
             Turn = 0,
             Winner = 0,
         };
+        _moveValidator = new MoveValidator();
     }
 
     public GameStateDTO GetGameStateDTO()

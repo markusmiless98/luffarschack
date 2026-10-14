@@ -1,6 +1,11 @@
 
 //const optionsContainer = document.getElementById('color_options');
-const COLORS = ["blue", "green", "orange", "red"];
+const COLORS = ["blue", "red", "green", "orange"];
+
+export function getPlayerColor(playerNumber) {
+    return COLORS[playerNumber - 1];       
+    // player 1 -> index 0, player 2 -> index 1
+}
 
 export function applyPlayerColor(cell, playerNumber) {
     console.log("no player", playerNumber);
@@ -13,8 +18,9 @@ export function applyPlayerColor(cell, playerNumber) {
         return;
     }
 
-    const color = COLORS[playerNumber - 1]
-    // player 1 -> index 0, player 2 -> index 1
+    const color = getPlayerColor(playerNumber);
+    if (!color) return;
+
     if (color) {
         cell.classList.add(`cube_color_${color}`);
         console.log("adding player color", `cube_color_${color}`)

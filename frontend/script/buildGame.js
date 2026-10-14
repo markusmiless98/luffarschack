@@ -1,13 +1,12 @@
 import { MoveRequest, GetFetch, NewGameRequest } from "./apiServiceScript.js";
 import { BuildPopUp } from "./popup.js";
 import { buildGameView } from "./gameViewBuilder.js"
-import { applyPlayerColor, resetColor } from "./playerColorSetUp.js"
+import { applyPlayerColor, resetColor, getPlayerColor } from "./playerColorSetUp.js"
 import { buildOptions } from "./buildOptions.js"
 async function buildGame() {
     buildGameView(async (x, y, z) => {
-        let pop_up_check = document.getElementById("skip_all_popup");
-        const skipConfirm = pop_up_check.value === "Yes";
-        confirmMove(x, y, z, skipConfirm)
+        const skipConfirm = document.getElementById("skip_popup").value === "Yes";
+        confirmMove(x, y, z, skipConfirm);
     });
 
     loadBoard()
@@ -36,11 +35,11 @@ async function handleMove(x, y, z) {
     if (!ok) return;
 
     const gamedata = await getGameData();
-    if (gamedata.winner != 0) winPopUp(gamedata.winner); 
+    markCell(x, y, z, gamedata.boardState[x][y][z]);
     //if we want to start the game with the same amount of players again then we need to sent the player amount of the game via the api
 
     updateGameInfo(gamedata);
-    markCell(x, y, z, gamedata.currentPlayer);
+    if (gamedata.winner != 0) winPopUp(gamedata.winner);
 }
 
 function markCell(x, y, z, player) {
@@ -111,7 +110,6 @@ function updateCell(cell, playerValue) {
     }
 
     if (playerValue != 0) {
-        console.log(playerValue)
         applyPlayerColor(cell, playerValue) //set player color here
         cell.classList.add("locked");
     }
@@ -157,6 +155,7 @@ function buildGameInfo() {
 function updateGameInfo(gamedata) {
     document.getElementById("info-turn").textContent = gamedata.turn;
     document.getElementById("info-player").textContent = gamedata.currentPlayer;
+    document.getElementById("info-player-color").textContent = getPlayerColor(gamedata.currentPlayer);
 }
 
 buildGame();

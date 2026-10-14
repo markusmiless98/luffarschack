@@ -3,7 +3,7 @@ function popUpsDisabled() {
     return document.getElementById("skip_all_popup")?.value === "Yes";
 }
 
-const global_pop_ups_disabled = document.getElementById("skip_all_popup");
+const global_pop_ups_disabled = () => document.getElementById("skip_all_popup");
 
 export function BuildPopUp(messageText, confirmText, onConfirm, cancelText, onCancel) {
 	if (popUpsDisabled())

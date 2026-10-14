@@ -28,8 +28,9 @@
 			<input type="range" id="gapSlider" min="0" max="80" value="40">
 			<output id="gapValue">40</output>
 		</label>
-		<!-- <div class="controls"> -->
-			
+
+		<div id="game_info"></div>
+		
 		<div id="options" class="side-options">
 			<div class="option_title">Options:</div>
 			<form id="options_form">
@@ -39,18 +40,25 @@
 			<div id="reset_container"></div>
 		</div>
 
-<!--
-		<div id="ui_side" class="side-options">
+		<!-- <div id="ui_side" class="side-options">
 			<div class="option_title">Options:</div>
 			<form id="option_side">
-				<div id="reset_buttons"></div>
-		</div>
-	</div>
--->
-	</div>
+				<div>
+					Disable ALL Popups?
+					<select id="skip_all_popup">
+						<option>No</option>
+						<option>Yes</option>
+					</select>
+				</div>
+			</form>
+			<div>
+				Restart Game
+			</div>
+			<div id="reset_buttons"></div>
+		</div> -->
 </body>
 
-<script type="module" src="./script/buildUI.js"></script>
+<!-- <script type="module" src="./script/buildUI.js"></script> -->
 <script type="module" src="./script/buildGame.js"></script>
 
 

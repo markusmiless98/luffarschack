@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Luffarschack.Core.ValueObjects;
 using Luffarschack.Orchestration.dto;
 
-namespace Luffarschack.Core
+namespace Luffarschack.Orchestration.Helpers
 {
     public static class Helper
     {

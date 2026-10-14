@@ -1,4 +1,5 @@
-using Luffarschack.Core.Interface;
+using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.ValueObjects;
 
 namespace Luffarschack.Core.Services;
 

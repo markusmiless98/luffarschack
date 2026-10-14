@@ -1,4 +1,4 @@
-﻿namespace Luffarschack.Core.Interface
+﻿namespace Luffarschack.Core.Interfaces
 {
     public interface IMoveValidator
     {

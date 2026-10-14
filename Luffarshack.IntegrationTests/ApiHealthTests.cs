@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 using Xunit;
 
-namespace Luffarshack.UnitTests;
+namespace Luffarshack.IntegrationTests;
 
 public class ApiHealthTests : IClassFixture<WebApplicationFactory<Program>>
 {

@@ -1,5 +1,5 @@
-﻿using Luffarschack.Core;
-using Luffarschack.Core.Interface;
+﻿using Luffarschack.Core.Interfaces;
+using Luffarschack.Core.ValueObjects;
 using Microsoft.Data.Sqlite;
 using System.Diagnostics;
 using System.Text.RegularExpressions;

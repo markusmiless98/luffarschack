@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Luffarshack.UnitTests;
+namespace Luffarshack.IntegrationTests;
 
 public class EndPointsTests : IClassFixture<WebApplicationFactory<Program>>
 {

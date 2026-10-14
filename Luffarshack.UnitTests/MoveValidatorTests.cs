@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using Luffarschack.Core;
 using Luffarschack.Core.Services;
-using Luffarschack.Core.Interface;
+using Luffarschack.Core.ValueObjects;
+using Luffarschack.Core.Interfaces;
 
 namespace Luffarshack.UnitTests
 {

@@ -1,4 +1,4 @@
-using Luffarschack.Core.Interface;
+using Luffarschack.Core.Interfaces;
 using Luffarschack.Core.Services;
 using Luffarschack.Database;
 using Luffarschack.Orchestration;

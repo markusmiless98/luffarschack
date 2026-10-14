@@ -1,5 +1,5 @@
-﻿using Luffarschack.Core;
-using Luffarschack.Core.Services;
+﻿using Luffarschack.Core.Services;
+using Luffarschack.Core.ValueObjects;
 using Luffarschack.Orchestration;
 using System;
 using System.Collections.Generic;

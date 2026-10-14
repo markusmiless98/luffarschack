@@ -1,6 +1,6 @@
-﻿using Luffarschack.Core;
-using Luffarschack.Core.Interface;
+﻿using Luffarschack.Core.Interfaces;
 using Luffarschack.Core.Services;
+using Luffarschack.Core.ValueObjects;
 using Luffarschack.Database;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;

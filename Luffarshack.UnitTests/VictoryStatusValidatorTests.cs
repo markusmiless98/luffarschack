@@ -1,5 +1,5 @@
 ﻿using Luffarschack.Core;
-using Luffarschack.Core.Interface;
+using Luffarschack.Core.Interfaces;
 using Luffarschack.Core.Services;
 using Luffarschack.Orchestration;
 using System;

@@ -1,4 +1,6 @@
-﻿namespace Luffarschack.Core.Interface
+﻿using Luffarschack.Core.ValueObjects;
+
+namespace Luffarschack.Core.Interfaces
 {
     public interface IVictoryStatusValidator
     {

@@ -1,4 +1,4 @@
-﻿using Luffarschack.Core;
+﻿using Luffarschack.Core.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

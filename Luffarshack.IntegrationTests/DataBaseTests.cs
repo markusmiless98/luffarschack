@@ -11,7 +11,14 @@ using System.Text;
 
 public class DataBaseTests : IClassFixture<WebApplicationFactory<Program>>
 {
+    
     private readonly IGameRepository _repos = new GameRepository(new SqliteDatabase("Luffarschack.db"));
+
+    public DataBaseTests()
+    {
+        var dbPath = Path.Combine(AppContext.BaseDirectory, "Luffarschack.db");
+        _repos = new GameRepository(new SqliteDatabase(dbPath));
+    }
 
     [Fact]
     public async Task MakeMoveLoadGame_WithRepository_SuccessfulLoad()

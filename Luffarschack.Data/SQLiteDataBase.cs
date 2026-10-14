@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Luffarschack.Core;
+using Microsoft.Data.Sqlite;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -19,16 +20,18 @@ namespace Luffarschack.Database
         public SqliteDatabase(string dbPath)
         {
             _dbPath = dbPath;
+            bool file_exists = dbPath.FileExistsInProjectDirectory();
             _connection = new SqliteConnection($"Data Source={_dbPath}");
             _connection.Open();
-            Init();
+            Init(file_exists);
         }
 
         public SqliteConnection GetConnection() => _connection;
         
-        private void Init()
+        private void Init(bool file_exists = false)
         {
             string dbPath = "Luffarschack.db";
+
             using var connection = new SqliteConnection($"Data Source={_dbPath}"); 
             connection.Open();
             var command = connection.CreateCommand();
@@ -52,6 +55,11 @@ namespace Luffarschack.Database
                 );
             ";
             command.ExecuteNonQuery();
+        
+            if (file_exists)
+            {
+                return; // Should not Insert Into if file already exists in most cases
+            }
 
             command.CommandText = @"
             INSERT INTO GameState (Turn, PlayerCount, CurrentPlayer, Outcome) VALUES (0, 0, 0, 0);

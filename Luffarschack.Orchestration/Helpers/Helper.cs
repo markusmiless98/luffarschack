@@ -31,5 +31,15 @@ namespace Luffarschack.Core
             Turn = state.Turn
             
         };
+
+        public static bool FileExistsInProjectDirectory(this string file)
+        {
+            if (File.Exists(file)) return true; // Really just use file exist at this point
+            string dir = Environment.CurrentDirectory;
+            dir += file;
+            if (File.Exists(dir)) return true;
+
+            return false;
+        }
     }
 }

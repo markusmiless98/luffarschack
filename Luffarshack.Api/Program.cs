@@ -30,6 +30,7 @@ builder.Services.AddSingleton(new SqliteDatabase(dbPath));
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IMoveValidator, MoveValidator>();
+builder.Services.AddScoped<IVictoryStatusValidator, VictoryStatusValidator>();
 
 var app = builder.Build();
 

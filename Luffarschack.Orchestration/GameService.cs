@@ -12,18 +12,18 @@ namespace Luffarschack.Orchestration;
 public class GameService : IGameService
 {
     public GameState GameState { get; set; } 
-    public VictoryStatusValidator VictoryValidator = new VictoryStatusValidator();//this should either be made into a static class or sent in via DI but im putting it here for now to ensure that everything works
-
     private IGameRepository _gameRepo { get; set; }
     private IMoveValidator _moveValidator { get; set; }
+    private IVictoryStatusValidator _victoryValidator { get; set; }
     private IGameBuilder _gameBuilder { get; set; }
 
-    public GameService(IGameRepository repo, IMoveValidator moveValidator, IGameBuilder gameBuilder)
+    public GameService(IGameRepository repo, IMoveValidator moveValidator, IGameBuilder gameBuilder, IVictoryStatusValidator victoryValidator)
     {
         if (repo != null && moveValidator != null && gameBuilder != null)
         {
             _gameRepo = repo;
             _moveValidator = moveValidator;
+            _victoryValidator = victoryValidator;
             _gameBuilder = gameBuilder;
             GameState = _gameRepo.LoadGame();
         }
@@ -39,7 +39,7 @@ public class GameService : IGameService
 
     private void Init()
     {
-        //initiation of gamestate and validator for tests/fallback if somethething goes wrong
+        //initiation of gamestate and validators for tests/fallback if somethething goes wrong?
         GameState = new GameState()
         {
             BoardState = new int[4, 4, 4],
@@ -49,6 +49,7 @@ public class GameService : IGameService
             Winner = 0,
         };
         _moveValidator = new MoveValidator();
+        _victoryValidator = new VictoryStatusValidator();
         _gameBuilder = new GameBuilder();
     }
 
@@ -69,7 +70,7 @@ public class GameService : IGameService
             {
                 PlaceMove(move);
                 GameState.Turn++;
-                GameState.Winner = VictoryValidator.CheckGameOutcome(GameState, move);
+                GameState.Winner = _victoryValidator.CheckGameOutcome(GameState, move);
                 GoToNextPlayer();
                 SaveGame();
                 return true;

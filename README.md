@@ -1,7 +1,7 @@
 # Luffarshack: 3D Tic-Tac-Toe (4x4x4)
  
 A turn-based, 3D version of tic-tac-toe played on a 4x4x4 board, shown as four stacked 4x4 layers with cubes. 
-Two to four players take turns on the same computer (there is no online play), placing pieces by clicking cubes on the board. 
+Two to four players take turns on the same computer (there is no online play), choosing positions by clicking cubes on the board. 
 The first player to get four in a row wins. A line can run along a row, column or pillar, across a diagonal of a layer, 
 or diagonally through the whole board.
 
